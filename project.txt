@@ -1,0 +1,142 @@
+
+============================
+	Words From Words 1.0
+============================
+
+
+
+
+================
+	Gameplay
+================
+
+	1. Round 1 begins.
+
+	2. Both players draw a card.
+
+	3. Three randomly selected words appear in the word pool.
+
+	4. Player 1 may play his or her card if desired, and if the effect described on the card is applicable.
+
+	5. Player 1 creates a word on the board using any letters from the word pool. The word must:
+
+		- Consist of at least two letters
+
+		- Not have any sequence of three or more letters in common with any word from the word pool
+
+		- Be in the center of the board, over the home icon
+
+	6. Player 1 is awarded points for the word, and his or her turn is complete.
+
+	7. Player 2 may play his or her card if desired, and if the effect described on the card is applicable.
+
+	8. Player 2 creates a word on the board, adhering to the following:
+
+		- If player 1 created a word of 9 or fewer letters, player 2 creates a word from the remaining letters in the word pool.
+
+		- If player 1 created a word of 10 or more letters, that word becomes the effective word pool for player 2, and he or she
+		  must create a word from only those letters. Player 2 is only awarded points for the letters used in his or her new word.
+		  No points are awarded for any remaining letters that happen to form valid words.
+
+		- In either case, the new word must:
+
+			+ Consist of at least two letters
+
+			+ Not have any sequence of three or more letters in common with any word from the word pool
+
+	9. Round 2 begins. The players continue as described above, alternating who plays first each round.
+
+	10. The first player to score 500 or more points is the winner.
+
+		Scoring methods:
+
+			- Various squares on the board contain 2x, 3x, or 4x multipliers. These squares multiply the values of the letters placed directly upon them.
+
+			- Various squares on the board contain DOUBLE-WORD or TRIPLE-WORD multipliers. These squares double or triple the sum of the values of all letters in the word.
+
+
+
+
+===================
+	Development
+===================
+
+	- This is a TDD project.
+
+	- JSX will not be used. Here's an example of what to do:
+
+		http://stackoverflow.com/questions/29286899/how-do-i-make-components-in-react-native-without-using-jsx
+
+	- The iOS app will be developed in React Native.
+
+	- The web app will be developed in React JS.
+
+	- The promotional and instructional YouTube videos will be produced.
+
+	- The Android app will be developed in React Native.
+
+
+=========================
+	Code Organization
+=========================
+
+	- The root of the project is ~/code/WordsFromWords/
+
+		+ To run your app on iOS:
+		    Open /Users/rob/code/WordsFromWords/ios/WordsFromWords.xcodeproj in Xcode
+		    Hit the Run button
+
+		+ To run your app on Android:
+		    Have an Android emulator running (quickest way to get started), or a device connected
+		    cd /Users/rob/code/WordsFromWords
+		    react-native run-android
+
+	- The different platforms are organized in the root as follows:
+
+		android/
+		ios/
+		web/
+
+	- Modules shared by all platforms (such as models) are located in ~/code/WordsFromWords/shared/
+
+
+============================
+	iOS Application Flow
+============================
+
+	- When the app is launched:
+
+		+ You need a Navigator with an initial route that (loads the LoadingController?). Refer to this:
+
+			http://stackoverflow.com/questions/29335523/react-native-custom-navigation-with-navigator-component
+
+		+ LoadingController displays LoadingView (which has nothing but the 'Words From Words' logo)
+
+		+ LoadingController then invokes LoadingModel to look up the 'uuid' key in AsyncStorage.
+
+		+ if (uuid === null) 
+
+			The user is presented with two options for signing in:
+
+				> Facebook (https://github.com/facebook/react-native-fbsdk)
+
+				> Email address (PostgreSQL)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
