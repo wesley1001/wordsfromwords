@@ -1,7 +1,7 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * Words From Words
  */
+
 'use strict';
 
 var React = require('react-native');

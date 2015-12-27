@@ -63,9 +63,25 @@
 
 	- This is a TDD project.
 
-	- JSX will not be used. Here's an example of what to do:
+	- If you decide not to use JSX after all, here's an example of what to do:
 
 		http://stackoverflow.com/questions/29286899/how-do-i-make-components-in-react-native-without-using-jsx
+
+		(remember that you should try to call createFactory() only once (globally) for each component type)
+
+	- The structure of React Native apps does not lend itself to controllers or models. As a result:
+
+	    + A single Navigator component will route directly to view components
+
+	        > If a view component needs to make an AJAX request:
+
+	            - It will do so in the method prescribed by the documentation: componentDidMount()
+
+	            - The render() method will render a WaitingView component
+
+	            - When the request is complete, the data will be passed to setState(), which will cause the view to render again
+
+	                + In other words state, not props, will be used for view re-rendering
 
 	- The iOS app will be developed in React Native.
 
@@ -106,7 +122,7 @@
 
 	- When the app is launched:
 
-		+ You need a Navigator with an initial route that (loads the LoadingController?). Refer to this:
+		+ You need a Navigator with an initial route to the LoadingView. Refer to this:
 
 			http://stackoverflow.com/questions/29335523/react-native-custom-navigation-with-navigator-component
 
