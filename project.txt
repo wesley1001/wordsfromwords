@@ -122,21 +122,63 @@
 
 	- When the app is launched:
 
-		+ You need a Navigator with an initial route to the LoadingView. Refer to this:
+		+ The App component, which is a React Native Navigator, has an initial route to LoadingView. Refer to this:
 
 			http://stackoverflow.com/questions/29335523/react-native-custom-navigation-with-navigator-component
 
-		+ LoadingController displays LoadingView (which has nothing but the 'Words From Words' logo)
+		+ LoadingView renders:
 
-		+ LoadingController then invokes LoadingModel to look up the 'uuid' key in AsyncStorage.
+		    > A gorgeous background of some kind
 
-		+ if (uuid === null) 
+		    > The 'Words From Words' logo (horizontally centered and vertically quartered)
 
-			The user is presented with two options for signing in:
+		    > An ActivityIndicatorIOS (horizontally and vertically centered)
 
-				> Facebook (https://github.com/facebook/react-native-fbsdk)
+		+ LoadingView.componentDidMount() tells LoadingModel to check for local credentials
 
-				> Email address (PostgreSQL)
+			LoadingModel checks for uuid and stored_token using AsyncStorage
+
+			if (uuid and stored_token exist) {
+
+				LoadingModel sends them to /api/mobile/relogin
+
+					/api/mobile/relogin looks up the email_token, email_token_exp, fb_id, and fb_token associated with the uuid
+
+					if (stored_token === fb_token) {
+
+						/api/mobile/relogin passes the fb_token to the Facebook Graph API and an gets the user's id back
+
+						if (fb_id === id) {
+
+							/api/mobile/relogin returns a success response to LoadingModel
+
+							LoadingModel navigates to GameListView
+
+						}
+
+					} else if (stored_token === email_token && today <= email_token_exp) {
+
+						/api/mobile/relogin returns a success response to LoadingModel
+
+						LoadingModel navigates to GameListView
+
+					}
+
+			} else {
+
+				LoadingModel navigates to LoginView
+
+			}
+
+	- When the LoginView renders:
+
+		+ The user is presented with two options for signing in:
+
+			> Facebook (https://github.com/facebook/react-native-fbsdk)
+
+			> Email address (PostgreSQL)
+
+		+ 
 
 
 

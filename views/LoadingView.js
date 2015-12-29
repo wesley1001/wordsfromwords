@@ -11,6 +11,19 @@ let {
 
 export default class LoadingView extends React.Component {
 
+    componentWillMount() {
+        /*
+        setTimeout(() => {
+            console.log('Replacing route...');
+            this.props.navigator.replace({component: LoadingView});
+        }, 1000);
+        */
+    }
+
+    componentWillUnmount() {
+        console.log('Umnounting');
+    }
+
     render() {
         return (
             <View style = {styles.centered}>
@@ -19,7 +32,7 @@ export default class LoadingView extends React.Component {
                 </Text>
                 <ActivityIndicatorIOS
                     animating = {true}
-                    size = 'large'
+                    size = {this.props.size}
                 />
             </View>
         );

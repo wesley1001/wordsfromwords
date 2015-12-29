@@ -13,7 +13,7 @@ export default class App extends React.Component {
         return (
             <Navigator
                 initialRoute = {{component: LoadingView}}
-                renderScene = {(route, navigator) => React.createElement(route.component, {navigator})}
+                renderScene = {(route, navigator) => React.createElement(route.component, {navigator, size: 'small'})}
             />
         );
     }
