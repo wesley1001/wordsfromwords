@@ -1,0 +1,45 @@
+
+When navigation to LoginChoicesView occurs:
+
+    LoginChoicesView renders:
+
+        - A gorgeous background of some kind (same as LoadingView?)
+
+        - The 'Words From Words' logo (horizontally centered and vertically quartered)
+
+        - A 'Sign in with Facebook' button
+
+            See this for help: https://github.com/facebook/react-native-fbsdk
+
+        - A 'Sign in with Email' button
+
+    User action occurs:
+
+        if (the user taps the 'Sign in with Facebook' button) {
+
+            ---> flow/ios/sign-in/facebook.txt
+
+        } else if (the user taps the 'Sign in with Email' button) {
+
+            ---> flow/ios/sign-in/email/address.txt
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

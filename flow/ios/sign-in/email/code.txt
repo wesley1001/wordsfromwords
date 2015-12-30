@@ -1,0 +1,63 @@
+
+When navigation to VerifyCodeView occurs:
+
+    NewAccountCodeView renders:
+
+        - A gorgeous background of some kind (same as LoadingView?)
+
+        - An input (with 'placeholder' set to 'Code' and 'keyboardType' set to 'numeric')
+
+        - A 'Submit' button
+
+    User action occurs:
+
+        if (the user types the code) {
+
+            NewAccountCodeView saves it (onChangeText) to EmailLoginModel
+
+        }
+
+        if (the user taps the 'Submit' button) {
+
+            NewAccountCodeView notifies EmailLoginModel
+
+            EmailLoginModel sends uuid and code to /api/email/code
+
+            /api/email/code looks up verify_code WHERE uuid = uuid
+
+            if (code === verify_code) {
+
+                /api/email/code UPDATEs verify_code to NULL
+
+                /api/email/code returns a 200 response (OK) with {verified: true}
+
+                EmailLoginModel navigates (via push) to EmailSetPasswordView
+
+                ---> flow/ios/sign-in/email/set-password.txt
+
+            } else {
+
+                /api/email/code returns a 400 response (Bad Request)
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

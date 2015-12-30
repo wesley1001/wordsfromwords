@@ -1,0 +1,127 @@
+
+When the user taps the 'Sign in with Email' button on the LoginChoicesView:
+
+    LoginChoicesModel navigates (via push) to EmailAddressView
+
+    EmailAddressView renders:
+
+        - A gorgeous background of some kind (same as LoadingView?)
+
+        - A single input (with 'placeholder' set to 'Email Address' and 'keyboardType' set to 'email-address')
+
+        - A 'Next >' button
+
+    User action occurs:
+
+        if (the user types an email address) {
+
+            EmailAddressView saves it (onChangeText) to EmailLoginModel
+
+        }
+
+        if (the user taps the 'Next >' button) {
+
+            EmailAddressView notifies EmailLoginModel
+
+            EmailLoginModel checks email:
+
+                if (email doesn't contain an '@' symbol) {
+
+                    EmailLoginModel calls back to EmailAddressView with {reason: 'invalid'}
+
+                    EmailAddressView displays an alert:
+
+                        'Uh, yeah...'
+
+                        'We're gonna need you to go ahead and enter a valid email address. Mmmkay?'
+
+                        [OK]
+
+                } else {
+
+                    EmailLoginModel POSTs email to /api/email/exists
+
+                    /api/email/exists looks up the uuid WHERE email = email
+
+                    if (uuid exists) {
+
+                        /api/email/exists returns a 200 response (OK) with {exists: true}
+
+                        EmailLoginModel navigates (via push) to EmailPasswordView
+
+                        ---> flow/ios/sign-in/email/password.txt
+
+                    } else {
+
+                        /api/email/exists returns a 200 response (OK) with {exists: false}
+
+                        EmailLoginModel calls back to EmailAddressView with {reason: 'new'}
+
+                        EmailAddressView displays an alert:
+
+                            'Hey!'
+
+                            "Looks like you're a new player. Shall we create an account for ${email}?"
+
+                            [Yes] [No]
+
+                        if (user taps [Yes]) {
+
+                            EmailAddressView notifies EmailLoginModel
+
+                            EmailLoginModel POSTs the email to /api/email/create
+
+                            /api/email/create looks up the uuid WHERE email = email
+
+                            if (uuid === null) {
+
+                                /api/email/create does the following:
+
+                                    generates a new uuid
+
+                                    generates a 6-digit verify_code
+
+                                    INSERTs the uuid, email, and verify_code
+
+                                    sends an email with the verify_code to email
+
+                                    returns a 200 response (OK) with {uuid: uuid}
+
+                                    EmailLoginModel saves uuid to itself
+
+                                    EmailLoginModel navigates (via push) to VerifyCodeView
+
+                                    ---> flow/ios/sign-in/email/code.txt
+
+                            } else {
+
+                                /api/email/create returns a 400 response (Bad Request)
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

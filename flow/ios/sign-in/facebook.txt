@@ -1,0 +1,38 @@
+
+When the user taps the 'Sign in with Facebook' button on the LoginChoicesView:
+
+    LoginChoicesView notifies LoginChoicesModel
+
+    LoginChoicesModel invokes the React Native FBSDK, which prompts the user to login via Facebook
+
+    After successful login, LoginChoicesModel POSTs the user's fb_id and fb_token to /api/facebook/validate
+
+    /api/facebook/validate passes the fb_token to the Facebook Graph API and gets the user's id back
+
+    if (fb_id === id) {
+
+        /api/facebook/validate looks up the uuid WHERE fb_token = fb_token
+
+        if (uuid === null) {
+
+            /api/facebook/validate generates a new uuid and INSERTs uuid, fb_id, fb_token
+
+        } else {
+
+            /api/facebook/validate UPDATEs fb_token WHERE uuid = uuid
+
+        }
+
+        /api/facebook/validate returns a 200 response (OK) with {uuid: uuid, stored_token: fb_token}
+
+        LoginChoicesModel sets uuid and stored_token on GlobalModel
+
+        LoginChoicesModel writes uuid and stored_token via AsyncStorage
+
+        LoginChoicesModel navigates (via replace) to GameListView
+
+    } else {
+
+        /api/facebook/validate returns a 400 response (bad request)
+
+    }
