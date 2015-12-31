@@ -1,14 +1,4 @@
 
-// TODO and WYLO ....
-//
-// What happens in these scenarios?
-//
-//     1. User says 'Yes' to creating an account, closes the app before entering the code, then opens the app and tries again
-//
-//     2. Malicious user says 'Yes' to creating an account with someone else's email address
-
-
-
 When the user taps the 'Sign in with Email' button on the LoginChoicesView:
 
     LoginChoicesModel navigates (via push) to EmailAddressView
@@ -51,9 +41,9 @@ When the user taps the 'Sign in with Email' button on the LoginChoicesView:
 
                     EmailLoginModel POSTs email to /api/email/exists
 
-                    /api/email/exists looks up the uuid WHERE email = email
+                    /api/email/exists looks up the uuid and password WHERE email = email
 
-                    if (uuid exists) {
+                    if (uuid exists && password !== NULL) {
 
                         /api/email/exists returns a 200 response (OK) with {exists: true}
 
@@ -83,31 +73,35 @@ When the user taps the 'Sign in with Email' button on the LoginChoicesView:
 
                             /api/email/create looks up the uuid WHERE email = email
 
-                            if (uuid === null) {
-
-                                /api/email/create does the following:
-
-                                    generates a new uuid
-
-                                    generates a 6-digit verify_code
-
-                                    INSERTs the uuid, email, and verify_code
-
-                                    sends an email with the verify_code to email
-
-                                    returns a 200 response (OK) with {uuid: uuid}
-
-                                    EmailLoginModel saves uuid to itself
-
-                                    EmailLoginModel navigates (via push) to EmailSetPasswordView
-
-                                    ---> flow/ios/sign-in/email/set-password.txt
-
-                            } else {
+                            if (uuid !== null && password !== null) {
 
                                 /api/email/create returns a 400 response (Bad Request)
 
                             }
+
+                            /api/email/create generates a 6-digit verify_code
+
+                            if (uuid === null) {
+
+                                /api/email/create generates a new uuid, then INSERTs the uuid, email, and verify_code
+
+                            } else {
+
+                                /api/email/create UPDATEs the verify_code
+
+                            }
+
+                            /api/email/create then does the following:
+
+                                sends an email with the verify_code to email
+
+                                returns a 200 response (OK) with {uuid: uuid}
+
+                                EmailLoginModel saves uuid to itself
+
+                                EmailLoginModel navigates (via push) to EmailSetPasswordView
+
+                                ---> flow/ios/sign-in/email/set-password.txt
 
                         }
 
