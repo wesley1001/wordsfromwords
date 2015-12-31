@@ -1,4 +1,14 @@
 
+// TODO and WYLO ....
+//
+// What happens in these scenarios?
+//
+//     1. User says 'Yes' to creating an account, closes the app before entering the code, then opens the app and tries again
+//
+//     2. Malicious user says 'Yes' to creating an account with someone else's email address
+
+
+
 When the user taps the 'Sign in with Email' button on the LoginChoicesView:
 
     LoginChoicesModel navigates (via push) to EmailAddressView
@@ -59,7 +69,7 @@ When the user taps the 'Sign in with Email' button on the LoginChoicesView:
 
                         EmailAddressView displays an alert:
 
-                            'Hey!'
+                            'Welcome!'
 
                             "Looks like you're a new player. Shall we create an account for ${email}?"
 
@@ -89,9 +99,9 @@ When the user taps the 'Sign in with Email' button on the LoginChoicesView:
 
                                     EmailLoginModel saves uuid to itself
 
-                                    EmailLoginModel navigates (via push) to VerifyCodeView
+                                    EmailLoginModel navigates (via push) to EmailSetPasswordView
 
-                                    ---> flow/ios/sign-in/email/code.txt
+                                    ---> flow/ios/sign-in/email/set-password.txt
 
                             } else {
 
