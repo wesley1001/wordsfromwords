@@ -116,6 +116,49 @@
 	- Modules shared by all platforms (such as models) are located in ~/code/WordsFromWords/shared/
 
 
+=================
+	Learnings
+=================
+
+	- If two components are siblings of each other, their 'flex' value will size them relative to each other. Consider this example:
+
+		+ There are two components, foo and bar, who are siblings and children of an outer container.
+
+		+ To make foo take up 25% of the outer container, and bar take up the other 75%, you do:
+
+			foo: {
+				flex: 1
+			},
+			bar: {
+				flex: 3
+			}
+
+	- In other words, you sum all the siblings to get the total flex value (4 in the above example), then each flex value becomes the numerator over the total:
+
+		foo = 1/4
+		bar = 3/4
+
+	- You absolutely must provide @2x and @3x images. If you don't do this for a given image, then it will be rendered at the 1x pixel ratio. This could make it appear
+	  pixelated compared to everything else that's rendering at 2x or 3x.
+
+
+============
+    Logo
+============
+
+    - This excellent website has all the physical pixel sizes, CSS pixel sizes, and pixel ratios:
+
+        http://mydevice.io/devices/
+
+    - Each letter in the logo can be thought of as the space on the left, the letter, and the space on the right
+
+    - For iPad, the logo dimensions will be 500 x 309 (approximately the golden ratio).
+
+    	+ The width was calculated by multiplying 0.7 and the lower iPad width (768), then rounding down to the nearest 100.
+
+
+
+
 
 
 
