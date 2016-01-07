@@ -15,13 +15,13 @@ When the app is launched:
 
     LoadingView tells LoadingModel to check for local credentials:
 
-        if (uuid and stored_token exist) {
+        if (uuid and token exist) {
 
-            LoadingModel POSTs uuid and stored_token to /api/mobile/relogin
+            LoadingModel POSTs uuid and token to /api/mobile/relogin
 
             /api/mobile/relogin looks up the email_token, email_token_exp, fb_id, and fb_token WHERE uuid = uuid
 
-            if (stored_token === fb_token) {
+            if (token === fb_token) {
 
                 /api/mobile/relogin passes the fb_token to the Facebook Graph API and gets the user's id back
 
@@ -29,7 +29,7 @@ When the app is launched:
 
                     /api/mobile/relogin returns a 200 response (OK) with {authenticated: true}
 
-                    LoadingModel sets uuid and stored_token on GlobalModel
+                    LoadingModel sets uuid and token on GlobalModel
 
                     LoadingModel navigates (via replace) to GameListView
 
@@ -45,11 +45,11 @@ When the app is launched:
 
                 }
 
-            } else if (stored_token === email_token && current server time < email_token_exp) {
+            } else if (token === email_token && current server time < email_token_exp) {
 
                 /api/mobile/relogin returns a 200 response (OK) with {authenticated: true}
 
-                LoadingModel sets uuid and stored_token on GlobalModel
+                LoadingModel sets uuid and token on GlobalModel
 
                 LoadingModel navigates (via replace) to GameListView
 

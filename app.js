@@ -8,14 +8,20 @@ let {
 } = React;
 
 export default class App extends React.Component {
-
+    
     render() {
         return (
             <Navigator
                 initialRoute = {{component: LoadingView}}
-                renderScene = {(route, navigator) => React.createElement(route.component, {navigator, size: 'small'})}
+                configureScene = {(route) => {
+                    if (route.component === LoadingView) {
+                        return Navigator.SceneConfigs.FloatFromBottom
+                    }
+                    return Navigator.SceneConfigs.FloatFromRight;
+                }}
+                renderScene = {(route, navigator) => React.createElement(route.component, {navigator})}
             />
         );
     }
-
+    
 }

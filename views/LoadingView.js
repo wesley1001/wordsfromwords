@@ -1,78 +1,52 @@
 'use strict';
 
-import React from 'react-native';
-import Device from '../util/device.js';
+import React        from 'react-native';
+import Device       from '../util/Device.js';
+import LoadingModel from '../models/LoadingModel.js';
 
 let {
     Image,
-    Dimensions,
     ActivityIndicatorIOS,
     StyleSheet,
-    Text,
     View
 } = React;
 
+let model = new LoadingModel();
+
 export default class LoadingView extends React.Component {
-
-    componentWillMount() {
-        console.log('On an iPad:', Device.isIpad);
-        /*
-        setTimeout(() => {
-            console.log('Replacing route...');
-            this.props.navigator.replace({component: LoadingView});
-        }, 1000);
-        */
+    
+    componentDidMount() {
+        model.initialize(this.props.navigator);
     }
-
-    componentWillUnmount() {
-        console.log('Umnounting');
-    }
-
+    
     render() {
+        var logo = Device.isIpad ? <Image source={require('../images/ipad/logo.png')} /> : <Image source={require('../images/iphone/logo.png')} />;
         return (
             <View style = {styles.outer}>
-                {/*
                 <View style={styles.backgroundWrapper}>
-                    <Image style={styles.backgroundImage} source={require('../background.png')} />
+                    <Image style={styles.backgroundImage} source={require('../images/background.png')} />
                 </View>
-                */}
                 <View style={styles.quartered}>
-                    <Image source={require('../test.png')} />
+                    {logo}
                 </View>
                 <View style = {styles.centered}>
                     <ActivityIndicatorIOS
                         animating = {true}
-                        //color = 'white'
+                        color = 'white'
                         size = 'large'
                     />
                 </View>
             </View>
         );
-        /*
-        return (
-            <View style = {styles.centered}>
-                <Text>
-                    Loading...
-                </Text>
-                <ActivityIndicatorIOS
-                    animating = {true}
-                    size = {this.props.size}
-                />
-            </View>
-        );
-        */
     }
-
+    
 }
-
-let {width, height} = Dimensions.get('window');
 
 let styles = StyleSheet.create({
     outer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'red'
+        justifyContent: 'center'
     },
     backgroundWrapper: {
         position: 'absolute',
@@ -82,13 +56,11 @@ let styles = StyleSheet.create({
         resizeMode: 'contain'
     },
     quartered: {
-        backgroundColor: 'blue',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
     },
     centered: {
-        backgroundColor: 'white',
         flex: 1
     }
 });

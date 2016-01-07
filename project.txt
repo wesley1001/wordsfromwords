@@ -90,6 +90,8 @@
 	- The promotional and instructional YouTube videos will be produced.
 
 	- The Android app will be developed in React Native.
+	
+	- Note that you have PostgreSQL 9.4.5 running via the Postgres.app (in Applications)
 
 
 =========================
@@ -146,15 +148,47 @@
     Logo
 ============
 
-    - This excellent website has all the physical pixel sizes, CSS pixel sizes, and pixel ratios:
+    - These excellent websites have all the physical pixel sizes, CSS pixel sizes, and pixel ratios:
 
         http://mydevice.io/devices/
 
+        http://www.paintcodeapp.com/news/ultimate-guide-to-iphone-resolutions
+
+        http://www.apple.com/ipad/compare/
+
+        http://www.apple.com/iphone/compare/
+
+        http://www.canbike.org/CSSpixels/
+
     - Each letter in the logo can be thought of as the space on the left, the letter, and the space on the right
+    
+    - You can determine your iPad version on this excellent page:
+    
+    	https://support.apple.com/en-us/HT201471
+    	
+    		+ The iPad you bought Bridget is an iPad 3
+    	
+    		+ The iPad issued to you at work is ?
+    
+    - The Words with Friends logo is approximately 793 x 156 pixels @2x, which is 50% of the width of your iPad.
 
-    - For iPad, the logo dimensions will be 500 x 309 (approximately the golden ratio).
+    - For iPad, you effectively have three widths to think about (however since the first 2 both have a pixel ratio of 2, you probably only need 2 iPad logos):
 
-    	+ The width was calculated by multiplying 0.7 and the lower iPad width (768), then rounding down to the nearest 100.
+    	+ iPad Pro  -> phy = 2048, css = 1024, ratio = 2
+
+    	+ newer-ish -> phy = 1536, css = 768,  ratio = 2
+
+    	+ older-ish -> phy = 768,  css = 768,  ratio = 1
+    
+    - For iPad @2x, each letter will be 180 x 180 pixels, which is 5x the sizes of the letters in Source Words.
+    
+    - Each scoring blank will be 230 x 230 pixels (again 5x that of Source Words).
+    
+    - The horizontal spacing between letters will be 60 pixels (again 5x that of Source Words).
+    
+    - The vertical spacing between the letters in each row will be 125 pixels (again 5x that of Source Words).
+    
+    - So the @2x iPad logo will be ? x ? pixels
 
 
 
