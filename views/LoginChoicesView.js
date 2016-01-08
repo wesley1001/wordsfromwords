@@ -21,6 +21,10 @@ export default class LoginChoicesView extends React.Component {
     
     render() {
         var fbLogo = null;
+        var emailLogo = null;
+        
+        // TODO and WYLO .... Pick an email logo, then create a 'Sign in with Email' button.
+        
         if (Device.isIpad) {
             fbLogo = <Image source={require('../images/ipad/fbLogo.png')} />
         } else {
@@ -37,6 +41,7 @@ export default class LoginChoicesView extends React.Component {
                         </Text>
                     </View>
                 </TouchableHighlight>
+                
             </View>;
         
         return (
@@ -55,11 +60,11 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#3b579d',
-        borderRadius: 4,
+        borderRadius: 3,
         paddingTop: 12,
         paddingBottom: 12,
-        paddingLeft: 48,
-        paddingRight: 48
+        paddingLeft: Device.isIpad ? 48 : 12,
+        paddingRight: Device.isIpad ? 48 : 12
     },
     fbLogo: {
         flex: 1
@@ -67,30 +72,9 @@ let styles = StyleSheet.create({
     fbText: {
         flex: 1,
         color: '#ffffff',
-        fontSize: 20,
+        fontSize: Device.isIpad ? 20 : 16,
         fontWeight: '400',
         letterSpacing: 0.5,
-        marginLeft: 16
-    },
-    
-    outer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    backgroundWrapper: {
-        position: 'absolute',
-        top: 0, right: 0, bottom: 0, left: 0
-    },
-    backgroundImage: {
-        resizeMode: 'contain'
-    },
-    quartered: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    centered: {
-        flex: 1
+        marginLeft: Device.isIpad ? 16 : 11
     }
 });
