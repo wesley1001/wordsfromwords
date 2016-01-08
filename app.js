@@ -15,7 +15,7 @@ export default class App extends React.Component {
                 initialRoute = {{component: LoadingView}}
                 configureScene = {(route) => {
                     if (route.component === LoadingView) {
-                        return Navigator.SceneConfigs.FloatFromBottom
+                        return Navigator.SceneConfigs.FloatFromBottom;
                     }
                     return Navigator.SceneConfigs.FloatFromRight;
                 }}

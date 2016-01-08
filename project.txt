@@ -142,6 +142,10 @@
 
 	- You absolutely must provide @2x and @3x images. If you don't do this for a given image, then it will be rendered at the 1x pixel ratio. This could make it appear
 	  pixelated compared to everything else that's rendering at 2x or 3x.
+	
+	- This appears to be an excellent resource about dragging, dropping, and animations (it's recent too):
+	
+		http://moduscreate.com/animated_drag_and_drop_with_react_native/
 
 
 ============
