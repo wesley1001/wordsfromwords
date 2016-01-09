@@ -1,26 +1,30 @@
 'use strict';
 
-import React           from 'react-native';
-import Device          from '../util/Device';
-import InitialLogoView from './InitialLogoView'
+import React             from 'react-native';
+import Device            from '../util/Device';
+import model             from '../models/LoginChoicesModel';
+import InitialLogoView   from './InitialLogoView';
 
 let {
     Image,
     StyleSheet,
     Text,
     TouchableHighlight,
-    TouchableOpacity,
     View
 } = React;
 
 export default class LoginChoicesView extends React.Component {
+
+    componentDidMount() {
+        model.initialize(this.props.navigator);
+    }
     
     fbButtonPressed() {
         console.log('the facebook button was pressed');
     }
     
     emailButtonPressed() {
-        console.log('the email button was pressed');
+        model.tryEmailLogin();
     }
     
     render() {
@@ -73,8 +77,8 @@ let styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#3b579d',
         borderRadius: 3,
-        paddingTop: 16,
-        paddingBottom: 16,
+        paddingTop: 14,
+        paddingBottom: 14,
         paddingLeft: Device.isIpad ? 48 : 12,
         width: Device.isIpad ? 400 : 250
     },
