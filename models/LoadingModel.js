@@ -19,7 +19,6 @@ export default class LoadingModel {
             if (uuid && token) {
                 console.log('POSTing uuid and token to /api/mobile/relogin...');
             } else {
-                console.log('Navigating to LoginChoicesView...');
                 navigator.replace({component: LoginChoicesView});
             }
         }).catch(function(error) {

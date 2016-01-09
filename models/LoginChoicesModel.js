@@ -5,16 +5,8 @@ import EmailAddressView from '../views/EmailAddressView';
 
 class LoginChoicesModel {
     
-    constructor() {
-        this._navigator = null;
-    }
-    
-    get navigator() {
-        return this._navigator;
-    }
-    
-    initialize(nav) {
-        this._navigator = nav;
+    initialize(navigator) {
+        this.navigator = navigator;
     }
     
     tryEmailLogin() {

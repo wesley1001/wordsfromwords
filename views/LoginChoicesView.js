@@ -32,7 +32,7 @@ export default class LoginChoicesView extends React.Component {
         var emailIcon = null;
         
         if (Device.isIpad) {
-            fbIcon = <Image style={styles.icon} source={require('../images/ipad/fbLogo.png')} />;
+            fbIcon = <Image source={require('../images/ipad/fbLogo.png')} />;
             emailIcon = <Image source={require('../images/ipad/email.png')} />;
         } else {
             fbIcon = <Image source={require('../images/iphone/fbLogo.png')}/>;
