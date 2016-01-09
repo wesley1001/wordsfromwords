@@ -19,29 +19,40 @@ export default class LoginChoicesView extends React.Component {
         console.log('the facebook button was pressed');
     }
     
+    emailButtonPressed() {
+        console.log('the email button was pressed');
+    }
+    
     render() {
-        var fbLogo = null;
-        var emailLogo = null;
-        
-        // TODO and WYLO .... Pick an email logo, then create a 'Sign in with Email' button.
+        var fbIcon = null;
+        var emailIcon = null;
         
         if (Device.isIpad) {
-            fbLogo = <Image source={require('../images/ipad/fbLogo.png')} />
+            fbIcon = <Image style={styles.icon} source={require('../images/ipad/fbLogo.png')} />;
+            emailIcon = <Image source={require('../images/ipad/email.png')} />;
         } else {
-            fbLogo = <Image source={require('../images/iphone/fbLogo.png')}/>;
+            fbIcon = <Image source={require('../images/iphone/fbLogo.png')}/>;
+            emailIcon = <Image source={require('../images/iphone/email.png')}/>;
         }
         
         var loginChoices = 
             <View>
-                <TouchableHighlight style={styles.fbHighlight} underlayColor={'#617dc4'}>
+                <TouchableHighlight style={styles.highlight} underlayColor={'#617dc4'} onPress={this.fbButtonPressed}>
                     <View style={styles.fbButton}>
-                        {fbLogo}
+                        {fbIcon}
                         <Text style={styles.fbText}>
                             Sign in with Facebook
                         </Text>
                     </View>
                 </TouchableHighlight>
-                
+                <TouchableHighlight style={styles.highlight} underlayColor={'#777777'} onPress={this.emailButtonPressed}>
+                    <View style={styles.emailButton}>
+                        {emailIcon}
+                        <Text style={styles.emailText}>
+                            Sign in with Email
+                        </Text>
+                    </View>
+                </TouchableHighlight>
             </View>;
         
         return (
@@ -52,8 +63,9 @@ export default class LoginChoicesView extends React.Component {
 }
 
 let styles = StyleSheet.create({
-    fbHighlight: {
-        borderRadius: 4
+    highlight: {
+        borderRadius: 3,
+        marginBottom: 24
     },
     fbButton: {
         flex: 1,
@@ -61,17 +73,31 @@ let styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#3b579d',
         borderRadius: 3,
-        paddingTop: 12,
-        paddingBottom: 12,
+        paddingTop: 16,
+        paddingBottom: 16,
         paddingLeft: Device.isIpad ? 48 : 12,
-        paddingRight: Device.isIpad ? 48 : 12
-    },
-    fbLogo: {
-        flex: 1
+        width: Device.isIpad ? 400 : 250
     },
     fbText: {
-        flex: 1,
         color: '#ffffff',
+        fontSize: Device.isIpad ? 20 : 16,
+        fontWeight: '400',
+        letterSpacing: 0.5,
+        marginLeft: Device.isIpad ? 16 : 11
+    },
+    emailButton: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#cccccc',
+        borderRadius: 3,
+        paddingTop: 16,
+        paddingBottom: 16,
+        paddingLeft: Device.isIpad ? 48 : 12,
+        width: Device.isIpad ? 400 : 250
+    },
+    emailText: {
+        color: '#3b579d',
         fontSize: Device.isIpad ? 20 : 16,
         fontWeight: '400',
         letterSpacing: 0.5,
