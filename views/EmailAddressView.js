@@ -6,6 +6,7 @@ import InitialLogoView from './InitialLogoView';
 import model           from '../models/EmailLoginModel';
 
 let {
+    Alert,
     Image,
     StyleSheet,
     Text,
@@ -28,10 +29,14 @@ export default class EmailAddressView extends React.Component {
     
     emailSubmitted() {
         if (model.isEmailValid()) {
-            console.log('Sending', this.state.email, 'to the server...');
+            // TODO .... Create the 'web' project and the '/api/email/exists' API
+            console.log('Sending', this.state.email, 'to /api/email/exists...');
         } else {
-            // TODO and WYLO .... Show an alert.
-            console.log('Invalid email...');
+            Alert.alert(
+                'Uh, yeah...',
+                "We're gonna need you to go ahead and enter a valid email address. Mmmkay?",
+                [{text: 'OK', onPress: () => this.refs.email.focus()}]
+            );
         }
     }
     
@@ -46,6 +51,7 @@ export default class EmailAddressView extends React.Component {
                     maxLength={256}
                     placeholder='Email Address'
                     placeholderTextColor='#777777'
+                    ref='email'
                     style={styles.emailInput}
                     onChangeText={(text) => this.emailChanged(text)}
                     onSubmitEditing={() => this.emailSubmitted()}
