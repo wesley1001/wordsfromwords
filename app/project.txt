@@ -146,6 +146,19 @@
 	- This appears to be an excellent resource about dragging, dropping, and animations (it's recent too):
 	
 		http://moduscreate.com/animated_drag_and_drop_with_react_native/
+	
+	- A UUID is represented by 32 lowercase hexadecimal digits, displayed in five groups separated by hyphens, in 
+	  the form 8-4-4-4-12 for a total of 36 characters (32 alphanumeric characters and four hyphens). For example:
+	  
+	      123e4567-e89b-12d3-a456-426655440000
+	
+	- Here's where you can read about writing scripts (e.g. setup and stored procedures) for Postgres:
+	
+	    http://www.postgresql.org/docs/9.4/static/plpgsql.html
+	
+	- This page has a nice table showing why you should use an 8-digit verify_code composed of lowercase, uppercase, digits, and specials:
+	
+	    https://blog.bit9.com/2015/03/15/dont-be-cracked-the-math-behind-good-online-passwords/
 
 
 ============

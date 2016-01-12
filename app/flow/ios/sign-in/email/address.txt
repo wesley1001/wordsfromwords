@@ -79,7 +79,7 @@ When the user taps the 'Sign in with Email' button on the LoginChoicesView:
 
                             }
 
-                            /api/email/create generates a 6-digit verify_code
+                            /api/email/create generates a 8-digit verify_code
 
                             if (uuid === null) {
 
