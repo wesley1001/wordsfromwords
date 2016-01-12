@@ -95,8 +95,8 @@ let styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#cccccc',
         borderRadius: 3,
-        paddingTop: 16,
-        paddingBottom: 16,
+        paddingTop: 14,
+        paddingBottom: 14,
         paddingLeft: Device.isIpad ? 48 : 12,
         width: Device.isIpad ? 400 : 250
     },

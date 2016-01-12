@@ -93,8 +93,8 @@ let styles = StyleSheet.create({
         backgroundColor: '#cccccc',
         borderRadius: 3,
         justifyContent: 'center',
-        paddingTop: 16,
-        paddingBottom: 16,
+        paddingTop: 14,
+        paddingBottom: 14,
         width: Device.isIpad ? 400 : 250
     },
     nextText: {
