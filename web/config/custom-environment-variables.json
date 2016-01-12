@@ -1,0 +1,14 @@
+{
+  "config": {
+    "db": {
+      "user": "WFW_DB_USER",
+      "password": "WFW_DB_PASSWORD"
+    },
+    "email": {
+      "noreply": {
+        "user": "WFW_NO_REPLY_USER",
+        "password": "WFW_NO_REPLY_PASSWORD"
+      }
+    }
+  }
+}
