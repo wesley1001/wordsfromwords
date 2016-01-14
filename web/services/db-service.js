@@ -3,7 +3,12 @@ var pg = require('pg').native;
 module.exports = {
     
     init: function(dbConfig) {
-        // TODO and WYLO 1 .... Write the necessary initialization code here.
+        var username = dbConfig.get('username');
+        var password = dbConfig.get('password');
+        var hostname = dbConfig.get('hostname');
+        var database = dbConfig.get('database');
+        this.connectionString = 'postgres://'+username+':'+password+'@'+hostname+'/'+database;
+        return this;
     },
     
     emailExists: function(email) {

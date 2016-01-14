@@ -1,7 +1,8 @@
 {
   "config": {
     "db": {
-      "host": "localhost"
+      "hostname": "localhost",
+      "database": "wfw"
     }
   }
 }
