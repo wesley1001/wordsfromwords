@@ -29,8 +29,10 @@ export default class EmailAddressView extends React.Component {
     
     emailSubmitted() {
         if (model.isEmailValid()) {
-            // TODO .... fetch() the '/api/email/exists' API
             console.log('Sending', this.state.email, 'to /api/email/exists...');
+            model.checkEmailExists(function() {
+                console.log('Create account?');
+            });
         } else {
             Alert.alert(
                 'Uh, yeah...',

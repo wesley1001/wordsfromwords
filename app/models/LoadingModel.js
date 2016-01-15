@@ -21,7 +21,7 @@ export default class LoadingModel {
             } else {
                 navigator.replace({component: LoginChoicesView});
             }
-        }).catch(function(error) {
+        }).catch((error) => {
             console.log("Failed to get uuid and/or token", error);
         });
     }
