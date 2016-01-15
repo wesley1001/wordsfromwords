@@ -61,7 +61,7 @@ var index = require('./routes/index')(dbService);
 var email = require('./routes/api/email')(dbService);
 
 app.use('/', index);
-app.use('/email', email);
+app.use('/api/email', email);
 //app.use('/admin', admin);
 
 // catch 404 and forward to error handler

@@ -2,12 +2,17 @@ var express = require('express');
 var router = express.Router();
 var dbService = null;
 
-router.get('/exists', function(req, res, next) {
-    if (!req.body.email) {
+router.get('/exists/:email', function(req, res, next) {
+    var email = req.params.email;
+    if (!email) {
         return res.send({error: 'Please provide your email address.'});
     }
-    // TODO .... Look up the uuid and password WHERE email = email
-    return res.send({exists: false});
+    dbService.emailExists(decodeURIComponent(email), function(err, result) {
+        if (err) {
+            return res.send({error: err});
+        }
+        return res.send({exists: result});
+    });
 });
 
 module.exports = function(databaseService) {
