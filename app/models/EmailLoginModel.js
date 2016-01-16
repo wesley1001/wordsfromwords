@@ -34,16 +34,15 @@ class EmailLoginModel {
         fetch('http://192.168.1.2:3000/api/email/exists/'+encodedEmail).then((rawResponse) => {
             return rawResponse.json();
         }).then((response) => {
-            // TODO and WYLO .... Handle all the below cases...
             if (!response || response.error) {
-                console.log('An unknown error occurred. Please check your network connection and try again.');
-            } else if (response.exists) {
-                console.log('Navigate to EmailPasswordView...');
+                callback();
+            } else if (!response.exists) {
+                callback(true);
             } else {
-                console.log('Execute callback()...');
+                console.log('Navigate to EmailPasswordView...');
             }
         }).catch((error) => {
-            console.warn(error);
+            callback();
         });
     }
 

@@ -29,9 +29,23 @@ export default class EmailAddressView extends React.Component {
     
     emailSubmitted() {
         if (model.isEmailValid()) {
-            console.log('Sending', this.state.email, 'to /api/email/exists...');
-            model.checkEmailExists(function() {
-                console.log('Create account?');
+            // TODO and WYLO .... Prevent duplicate checks using this.state.checkingEmail.
+            model.checkEmailExists((create) => {
+                if (create) {
+                    Alert.alert(
+                        'Welcome!',
+                        `Looks like you're a new player.\nShall we create an account for ${this.state.email}?`,
+                        [
+                            {text: 'Yes', onPress: () => console.log('POST the email...')}, // TODO and WYLO 2 .... POST the email
+                            {text: 'No'}
+                        ]
+                    );
+                } else {
+                    Alert.alert(
+                        'Hmm...',
+                        "Something went wrong. Check your network connection and try again."
+                    );
+                }
             });
         } else {
             Alert.alert(

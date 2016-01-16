@@ -32,6 +32,7 @@ module.exports = {
                 } else {
                     callback(null, false);
                 }
+                done();
             });
         });
     },
