@@ -43,7 +43,7 @@ When the user taps the 'Sign in with Email' button on the LoginChoicesView:
 
                     /api/email/exists looks up the uuid and password WHERE email = email
 
-                    if (uuid exists && password !== NULL) {
+                    if (uuid !== NULL && password !== NULL) {
 
                         /api/email/exists returns a 200 response (OK) with {exists: true}
 
@@ -73,21 +73,21 @@ When the user taps the 'Sign in with Email' button on the LoginChoicesView:
 
                             /api/email/create looks up the uuid WHERE email = email
 
-                            if (uuid !== null && password !== null) {
+                            if (uuid !== NULL && password !== NULL) {
 
                                 /api/email/create returns a 400 response (Bad Request)
 
                             }
 
-                            /api/email/create generates a 8-digit verify_code
+                            /api/email/create generates a 12-digit verify_code
 
                             if (uuid === null) {
 
-                                /api/email/create generates a new uuid, then INSERTs the uuid, email, and verify_code
+                                /api/email/create generates a new uuid, then INSERTs the uuid, email, verify_code, and verify_code_exp
 
                             } else {
 
-                                /api/email/create UPDATEs the verify_code
+                                /api/email/create UPDATEs the verify_code and verify_code_exp WHERE email = email
 
                             }
 

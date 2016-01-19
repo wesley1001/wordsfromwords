@@ -23,36 +23,41 @@ export default class EmailAddressView extends React.Component {
     }
     
     emailChanged(email) {
-        model.email = email;
-        this.setState({email});
+        if (!model.isFetching()) {
+            model.email = email;
+            this.setState({email});
+        }
     }
     
     emailSubmitted() {
-        if (model.isEmailValid()) {
-            // TODO and WYLO .... Prevent duplicate checks using this.state.checkingEmail.
-            model.checkEmailExists((create) => {
-                if (create) {
-                    Alert.alert(
+        if (!model.isFetching()) {
+            if (model.isEmailValid()) {
+                model.checkEmailExists((create) => {
+                    if (create) {
+                        Alert.alert(
                         'Welcome!',
                         `Looks like you're a new player.\nShall we create an account for ${this.state.email}?`,
                         [
-                            {text: 'Yes', onPress: () => console.log('POST the email...')}, // TODO and WYLO 2 .... POST the email
+                            {text: 'Yes', onPress: () => model.createAccount()}, // TODO and WYLO 2 .... POST the email
                             {text: 'No'}
                         ]
-                    );
-                } else {
-                    Alert.alert(
+                        );
+                    } else {
+                        Alert.alert(
                         'Hmm...',
                         "Something went wrong. Check your network connection and try again."
-                    );
-                }
-            });
-        } else {
-            Alert.alert(
+                        );
+                    }
+                });
+            } else {
+                Alert.alert(
                 'Uh, yeah...',
                 "We're gonna need you to go ahead and enter a valid email address. Mmmkay?",
                 [{text: 'OK', onPress: () => this.refs.email.focus()}]
-            );
+                );
+            }
+        } else {
+            console.log('Alredy checking...');
         }
     }
     

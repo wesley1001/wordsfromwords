@@ -1,3 +1,6 @@
+
+-- NOTE: This function is not used. It turns out that getUuidAndPassword.sql is better.
+
 -- psql -d wfw -a -f emailExists.sql
 
 CREATE OR REPLACE FUNCTION email_exists(emailArg character varying(256)) RETURNS boolean AS

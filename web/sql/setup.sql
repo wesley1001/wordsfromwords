@@ -48,23 +48,36 @@ ALTER TABLE users
 
 ----- Stored Functions -----
 
--- email_exists()
+-- get_uuid_and_password()
 
-CREATE OR REPLACE FUNCTION email_exists(emailArg character varying(256)) RETURNS boolean AS
+CREATE OR REPLACE FUNCTION get_uuid_and_password(emailArg character varying(256))
+RETURNS TABLE(uuid character(36), password character varying(512)) AS
 $$
-DECLARE
-    result RECORD;
 BEGIN
 
-    EXECUTE '
+    RETURN QUERY EXECUTE '
         SELECT uuid, password
         FROM users
         WHERE email = $1
     '
-    INTO result
     USING emailArg;
     
-    RETURN result.uuid IS NOT NULL AND result.password IS NOT NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+
+-- create_email_user()
+
+CREATE OR REPLACE FUNCTION create_email_user(uuidArg character(36), emailArg character varying(256), codeArg character(12)) RETURNS void AS
+$$
+BEGIN
+
+    EXECUTE '
+        INSERT INTO users (uuid, email, verify_code, verify_code_exp)
+        VALUES($1, $2, $3, localtimestamp)
+    '
+    USING uuidArg, emailArg, codeArg;
     
 END;
 $$

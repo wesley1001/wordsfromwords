@@ -11,27 +11,53 @@ module.exports = {
         return this;
     },
     
-    emailExists: function(email, callback) {
+    getUuidAndPassword: function(email, callback) {
         pg.connect(this.connectionString, function(err, client, done) {
             if (err) {
                 callback('Error getting client connection: ' + err);
                 return;
             }
             client.query({
-                name: 'email_exists_query',
-                text: 'SELECT email_exists($1)',
+                name: 'get_uuid_and_password_query',
+                text: 'SELECT * FROM get_uuid_and_password($1)',
                 values: [email]
             },
-            function (err, result) {
+            function (err, rawResult) {
                 if (err) {
                     callback('Error performing email_exists() query: ' + err);
                     return;
                 }
-                if (result && result.rows && result.rows[0] && result.rows[0].email_exists) {
-                    callback(null, true);
-                } else {
-                    callback(null, false);
+                var result = {
+                    uuid: null,
+                    password: null
+                };
+                if (rawResult && rawResult.rows && rawResult.rows[0]) {
+                    result.uuid = rawResult.rows[0].uuid;
+                    result.password = rawResult.rows[0].password;
                 }
+                callback(null, result);
+                done();
+            });
+        });
+    },
+    
+    createEmailUser: function(uuid, email, code, callback) {
+        pg.connect(this.connectionString, function(err, client, done) {
+            if (err) {
+                callback('Error getting client connection: ' + err);
+                return;
+            }
+            client.query({
+                name: 'create_email_user_query',
+                text: 'SELECT create_email_user($1, $2, $3)',
+                values: [uuid, email, code]
+            },
+            function (err) {
+                if (err) {
+                    callback('Error performing email_exists() query: ' + err);
+                    return;
+                }
+                callback(null);
                 done();
             });
         });

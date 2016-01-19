@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configure passport
-app.use(session({secret:"shift left logical"}));
+app.use(session({secret: 'shift left logical'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -55,14 +55,12 @@ function(username, password, done) {
 ));*/
 
 var index = require('./routes/index')(dbService);
-//var admin = require('./routes/admin')(dbService, passport, appConfig.get('config.email.noreply'));
 
 /* APIs */
 var email = require('./routes/api/email')(dbService);
 
 app.use('/', index);
 app.use('/api/email', email);
-//app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
