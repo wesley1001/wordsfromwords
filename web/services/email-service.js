@@ -1,9 +1,9 @@
 function EmailService() {}
 
 EmailService.prototype = {
-    
-    emailVerifyCode: function(email, code) {
-        
+
+    sendVerifyCode: function(email, rawCode) {
+        // TODO and WYLO 1 .... Send the email.
     }
     
 };

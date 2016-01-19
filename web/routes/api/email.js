@@ -18,10 +18,11 @@ router.get('/exists/:email', function(req, res, next) {
 });
 
 router.post('/create', function(req, res) {
-    if (!req.body.email) {
+    var email = req.body.email;
+    if (!email) {
         return res.send({error: 'Please provide your email address.'});
     }
-    dbService.getUuidAndPassword(decodeURIComponent(email), function(err, result) {
+    dbService.getUuidAndPassword(email, function(err, result) {
         if (err) {
             return res.send({error: err});
         }
@@ -34,7 +35,14 @@ router.post('/create', function(req, res) {
             rawCode += pool.charAt(Math.floor(Math.random() * pool.length));
         }
         if (result.uuid === null) {
-            // TODO and WYLO 1 .... INSERT new email user, then email the verify code using emailService.emailVerifyCode()
+            var newUuid = uuid.v4();
+            dbService.createEmailUser(newUuid, email, rawCode, function(createErr) {
+                if (createErr) {
+                    return res.send({error: createErr});
+                }
+                emailService.sendVerifyCode(email, rawCode);
+                return res.send({uuid: newUuid});
+            });
         } else {
             // TODO and WYLO 2 .... UPDATE verify_code and verify_code_exp WHERE email = email, then email the verify code using emailService.emailVerifyCode()
         }
