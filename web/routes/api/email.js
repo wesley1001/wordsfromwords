@@ -2,7 +2,10 @@ var express      = require('express'),
     router       = express.Router(),
     dbService    = null,
     uuid         = require('node-uuid'),
-    emailService = require('email-service');
+    emailService = require('../../services/email-service'),
+    nodemailer = require('nodemailer'),
+    smtpTransport = require('nodemailer-smtp-transport'),
+    transport = null;
 
 router.get('/exists/:email', function(req, res, next) {
     var email = req.params.email;
@@ -40,7 +43,7 @@ router.post('/create', function(req, res) {
                 if (createErr) {
                     return res.send({error: createErr});
                 }
-                emailService.sendVerifyCode(email, rawCode);
+                emailService.sendVerifyCode(email, rawCode, transport);
                 return res.send({uuid: newUuid});
             });
         } else {
@@ -49,7 +52,21 @@ router.post('/create', function(req, res) {
     });
 });
 
-module.exports = function(databaseService) {
+module.exports = function(databaseService, emailConfig) {
     dbService = databaseService;
+    transport = nodemailer.createTransport(smtpTransport({
+        host: 'mail.wordsfromwords.com',
+            // TODO .... Get an SSL certificate so you can send secure emails.
+        port: 26,
+        secure: false,
+        tls: {
+            rejectUnauthorized: false
+        },
+            // TODO .... Get an SSL certificate so you can send secure emails.
+        auth: {
+            user: emailConfig.user,
+            pass: emailConfig.password
+        }
+    }));
     return router;
 };

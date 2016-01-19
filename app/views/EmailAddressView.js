@@ -29,24 +29,28 @@ export default class EmailAddressView extends React.Component {
         }
     }
     
+    showUnknownError() {
+        Alert.alert(
+            'Hmm...',
+            "Something went wrong. Check your network connection and try again."
+        );
+    }
+    
     emailSubmitted() {
         if (!model.isFetching()) {
             if (model.isEmailValid()) {
                 model.checkEmailExists((create) => {
                     if (create) {
                         Alert.alert(
-                        'Welcome!',
-                        `Looks like you're a new player.\nShall we create an account for ${this.state.email}?`,
-                        [
-                            {text: 'Yes', onPress: () => model.createAccount()}, // TODO and WYLO 2 .... POST the email
-                            {text: 'No'}
-                        ]
+                            'Welcome!',
+                            `Looks like you're a new player.\nShall we create an account for ${this.state.email}?`,
+                            [
+                                {text: 'Yes', onPress: () => model.createAccount(this.showUnknownError)},
+                                {text: 'No'}
+                            ]
                         );
                     } else {
-                        Alert.alert(
-                        'Hmm...',
-                        "Something went wrong. Check your network connection and try again."
-                        );
+                        this.showUnknownError();
                     }
                 });
             } else {

@@ -56,9 +56,34 @@ class EmailLoginModel {
         });
     }
     
-    createAccount() {
+    createAccount(callback) {
         this._fetching = true;
-        console.log('POSTing ', this._email, ' to /api/email/create');
+
+        // TODO .... Need to figure out how to differentiate between the dev and prod URL...
+        
+        fetch('http://192.168.1.2:3000/api/email/create', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: this._email
+            })
+        }).then((rawResponse) => {
+            return rawResponse.json();
+        }).then((response) => {
+            this._fetching = false;
+            if (!response || !response.uuid || response.error) {
+                callback();
+            } else {
+                console.log('Saving', response.uuid, 'to local storage...');
+                console.log('Navigating to EmailSetPasswordView...');
+            }
+        }).catch((error) => {
+            this._fetching = false;
+            callback();
+        });
         
         // TODO and WYLO .... Once /api/email/create works, POST to it, store the returned uuid, then navigate to EmailSetPasswordView
     }

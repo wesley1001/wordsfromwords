@@ -57,7 +57,7 @@ function(username, password, done) {
 var index = require('./routes/index')(dbService);
 
 /* APIs */
-var email = require('./routes/api/email')(dbService);
+var email = require('./routes/api/email')(dbService, appConfig.get('config.email.noreply'));
 
 app.use('/', index);
 app.use('/api/email', email);
