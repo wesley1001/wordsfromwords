@@ -1,6 +1,5 @@
 'use strict';
 
-import React            from 'react-native';
 import EmailAddressView from '../views/EmailAddressView';
 
 class LoginChoicesModel {

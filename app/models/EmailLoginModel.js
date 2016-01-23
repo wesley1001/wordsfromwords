@@ -1,20 +1,33 @@
 'use strict';
 
-import React            from 'react-native';
-
 class EmailLoginModel {
 
-    initialize(navigator) {
+    constructor() {
+        this._email = '';
+        this._uuid  = '';
+        this._code1 = '';
+        this._code2 = '';
+        this._code3 = '';
+        this._code4 = '';
+        this._password1 = '';
+        this._password2 = '';
+        this._fetching = false;
+    }
+    
+    setNavigator(navigator) {
         this.navigator = navigator;
     }
     
-    constructor() {
-        this._email = '';
-        this._fetching = false;
+    setEmailSetPasswordView (emailSetPasswordView) {
+        this.emailSetPasswordView = emailSetPasswordView;
     }
     
     set email(value) {
         this._email = value;
+    }
+
+    set code1(value) {
+        this._code1 = value;
     }
     
     isEmailValid() {
@@ -78,14 +91,14 @@ class EmailLoginModel {
                 callback();
             } else {
                 console.log('Saving', response.uuid, 'to local storage...');
-                console.log('Navigating to EmailSetPasswordView...');
+                this._uuid = response.uuid;
+                this.navigator.push({component: this.emailSetPasswordView});
             }
         }).catch((error) => {
+            console.log(error);
             this._fetching = false;
             callback();
         });
-        
-        // TODO and WYLO .... Once /api/email/create works, POST to it, store the returned uuid, then navigate to EmailSetPasswordView
     }
 
 }

@@ -1,9 +1,10 @@
 'use strict';
 
-import React           from 'react-native';
-import Device          from '../util/Device';
-import InitialLogoView from './InitialLogoView';
-import model           from '../models/EmailLoginModel';
+import React                from 'react-native';
+import Device               from '../util/Device';
+import InitialLogoView      from './InitialLogoView';
+import model                from '../models/EmailLoginModel';
+import EmailSetPasswordView from './EmailSetPasswordView';
 
 let {
     Alert,
@@ -20,6 +21,11 @@ export default class EmailAddressView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {email: ''};
+    }
+
+    componentDidMount() {
+        model.setNavigator(this.props.navigator);
+        model.setEmailSetPasswordView(EmailSetPasswordView);
     }
     
     emailChanged(email) {
@@ -106,7 +112,7 @@ let styles = StyleSheet.create({
         height: 48,
         marginBottom: 24,
         paddingLeft: 12,
-        width: 400
+        width: Device.isIpad ? 400 : 250
     },
     highlight: {
         borderRadius: 3

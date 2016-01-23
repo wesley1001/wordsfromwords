@@ -159,6 +159,14 @@
 	- This page has a nice table showing why you should use an 8-digit verify_code composed of lowercase, uppercase, digits, and specials:
 	
 	    https://blog.bit9.com/2015/03/15/dont-be-cracked-the-math-behind-good-online-passwords/
+    
+    - When you're ready to try preventing WFW email from ending up in Gmail spam, check this out:
+    
+        https://support.google.com/mail/answer/81126
+    
+    - Here's a starting point for making sure the verify_code isn't expired:
+    
+        SELECT verify_code_exp + interval '10 minutes' AS expiry FROM users WHERE uuid = ?;
 
 
 ============
