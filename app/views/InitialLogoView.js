@@ -10,7 +10,9 @@ let {
 } = React;
 
 export default class InitialLogoView extends React.Component {
-
+    
+    // TODO and WYLO .... Figure out how to pass in a prop for when to show/hide the logo (e.g. hide it when the navbar is visible).
+    
     render() {
         var logo = Device.isIpad ? <Image source={require('../images/ipad/logo.png')} /> : <Image source={require('../images/iphone/logo.png')} />;
         return (

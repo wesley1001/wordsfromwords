@@ -10,18 +10,19 @@ let {
 export default class App extends React.Component {
     
     render() {
-        return (
+        var navigator = (
             <Navigator
-                initialRoute = {{component: LoadingView}}
-                configureScene = {(route) => {
+                initialRoute={{component: LoadingView}}
+                configureScene={(route) => {
                     if (route.component === LoadingView) {
                         return Navigator.SceneConfigs.FloatFromBottom;
                     }
                     return Navigator.SceneConfigs.FloatFromRight;
                 }}
-                renderScene = {(route, navigator) => React.createElement(route.component, {navigator})}
+                renderScene={(route, navigator) => React.createElement(route.component, {navigator})}
             />
         );
+        return navigator;
     }
     
 }

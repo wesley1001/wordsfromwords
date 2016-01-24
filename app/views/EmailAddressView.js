@@ -3,6 +3,7 @@
 import React                from 'react-native';
 import Device               from '../util/Device';
 import InitialLogoView      from './InitialLogoView';
+import NavBarView           from './NavBarView';
 import model                from '../models/EmailLoginModel';
 import EmailSetPasswordView from './EmailSetPasswordView';
 
@@ -98,7 +99,10 @@ export default class EmailAddressView extends React.Component {
             </View>;
 
         return (
-            <InitialLogoView subView={emailAndNext}/>
+            <View>
+                <InitialLogoView subView={emailAndNext}/>
+                <NavBarView navigator={this.props.navigator}/>
+            </View>
         );
     }
     
@@ -112,7 +116,7 @@ let styles = StyleSheet.create({
         height: 48,
         marginBottom: 24,
         paddingLeft: 12,
-        width: Device.isIpad ? 400 : 250
+        width: Device.isIpad ? 400 : 248
     },
     highlight: {
         borderRadius: 3
@@ -126,7 +130,7 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
         paddingTop: 14,
         paddingBottom: 14,
-        width: Device.isIpad ? 400 : 250
+        width: Device.isIpad ? 400 : 248
     },
     nextText: {
         color: '#3b579d',

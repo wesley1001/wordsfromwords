@@ -80,7 +80,7 @@ let styles = StyleSheet.create({
         paddingTop: 14,
         paddingBottom: 14,
         paddingLeft: Device.isIpad ? 48 : 12,
-        width: Device.isIpad ? 400 : 250
+        width: Device.isIpad ? 400 : 248
     },
     fbText: {
         color: '#ffffff',
@@ -98,7 +98,7 @@ let styles = StyleSheet.create({
         paddingTop: 14,
         paddingBottom: 14,
         paddingLeft: Device.isIpad ? 48 : 12,
-        width: Device.isIpad ? 400 : 250
+        width: Device.isIpad ? 400 : 248
     },
     emailText: {
         color: '#3b579d',

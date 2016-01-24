@@ -45,7 +45,34 @@ export default class EmailSetPasswordView extends React.Component {
     }
 
     code2Changed(code2) {
-        console.log('code2 is:', code2);
+        if (!model.isFetching()) {
+            model.code2 = code2;
+            this.setState({code2});
+            if (code2.length == 3) {
+                this.refs.code3.focus();
+            }
+        }
+    }
+
+    code3Changed(code3) {
+        if (!model.isFetching()) {
+            model.code3 = code3;
+            this.setState({code3});
+            if (code3.length == 3) {
+                this.refs.code4.focus();
+            }
+        }
+    }
+
+    code4Changed(code4) {
+        if (!model.isFetching()) {
+            model.code4 = code4;
+            this.setState({code4});
+            if (code4.length == 3) {
+                //this.refs.code4.focus();
+                // TODO .... Focus the password1 TextInput
+            }
+        }
     }
 
     submitTapped() {
@@ -66,7 +93,7 @@ export default class EmailSetPasswordView extends React.Component {
                     style={styles.codeInput}
                     onChangeText={(text) => this.code1Changed(text)}
                     //onSubmitEditing={() => this.emailSubmitted()}
-                    //value={this.state.code1}
+                    value={this.state.code1}
                 />
                 <TextInput
                     autoCapitalize='none'
@@ -78,7 +105,31 @@ export default class EmailSetPasswordView extends React.Component {
                     style={styles.codeInput}
                     onChangeText={(text) => this.code2Changed(text)}
                     //onSubmitEditing={() => this.emailSubmitted()}
-                    //value={this.state.code2}
+                    value={this.state.code2}
+                />
+                <TextInput
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    autoFocus={false}
+                    keyboardType='numeric'
+                    maxLength={3}
+                    ref='code3'
+                    style={styles.codeInput}
+                    onChangeText={(text) => this.code3Changed(text)}
+                    //onSubmitEditing={() => this.emailSubmitted()}
+                    value={this.state.code3}
+                />
+                <TextInput
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    autoFocus={false}
+                    keyboardType='numeric'
+                    maxLength={3}
+                    ref='code4'
+                    style={styles.codeInput}
+                    onChangeText={(text) => this.code4Changed(text)}
+                    //onSubmitEditing={() => this.emailSubmitted()}
+                    value={this.state.code4}
                 />
             </View>
             <TouchableHighlight style={styles.highlight} underlayColor={'#777777'} onPress={() => this.submitTapped()}>
@@ -100,7 +151,8 @@ export default class EmailSetPasswordView extends React.Component {
 let styles = StyleSheet.create({
     codeRow: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     codeInput: {
         borderColor: '#bbbbbb',
@@ -108,11 +160,9 @@ let styles = StyleSheet.create({
         color: '#ffffff',
         height: 48,
         marginBottom: 24,
-        marginLeft: 2,
-        marginRight: 2,
-        //paddingLeft: 12,
+        marginRight: 4,
         textAlign: 'center',
-        width: 55
+        width: 59
     },
     highlight: {
         borderRadius: 3
@@ -126,7 +176,7 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
         paddingTop: 14,
         paddingBottom: 14,
-        width: Device.isIpad ? 400 : 250
+        width: Device.isIpad ? 400 : 248
     },
     submitText: {
         color: '#3b579d',
