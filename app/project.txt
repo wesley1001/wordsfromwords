@@ -167,6 +167,14 @@
     - Here's a starting point for making sure the verify_code isn't expired:
     
         SELECT verify_code_exp + interval '10 minutes' AS expiry FROM users WHERE uuid = ?;
+    
+    - Whenever you feel like digging in your heels and figuring out how to do the LaunchScreen:
+    
+        https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/LaunchImages.html
+        
+        https://github.com/facebook/react-native/issues/1402
+    
+    - 
 
 
 ============

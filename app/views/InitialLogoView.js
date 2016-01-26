@@ -15,7 +15,8 @@ export default class InitialLogoView extends React.Component {
     
     render() {
         var logo = Device.isIpad ? <Image source={require('../images/ipad/logo.png')} /> : <Image source={require('../images/iphone/logo.png')} />;
-        return (
+        
+        var view = (
             <View style={styles.outer}>
                 <View style={styles.backgroundWrapper}>
                     <Image style={styles.backgroundImage} source={require('../images/background.png')} />
@@ -28,6 +29,21 @@ export default class InitialLogoView extends React.Component {
                 </View>
             </View>
         );
+        
+        if (this.props.hideLogo) {
+            view = (
+                <View style={styles.outer}>
+                    <View style={styles.backgroundWrapper}>
+                        <Image style={styles.backgroundImage} source={require('../images/background.png')} />
+                    </View>
+                    <View style={styles.centered}>
+                        {this.props.subView}
+                    </View>
+                </View>
+            );
+        }
+        
+        return view;
     }
     
 }

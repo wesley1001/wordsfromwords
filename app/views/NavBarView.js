@@ -24,15 +24,17 @@ export default class NavBarView extends React.Component {
     render() {
         var backArrow = Device.isIpad ? <Image style={styles.arrow} source={require('../images/ipad/backArrow.png')} /> : <Image style={styles.arrow} source={require('../images/iphone/backArrow.png')}/>;
         return (
-            <View style={styles.container}>
-                <TouchableHighlight underlayColor={'#4176a7'} onPress={() => this.backPressed()}>
-                    <View>
+            <View>
+                <View style={styles.container}>
+                    <TouchableHighlight style={styles.button} underlayColor={'#4176a7'} onPress={() => this.backPressed()}>
                         <View style={styles.button}>
                             {backArrow}
                             <Text style={styles.backText}>Back</Text>
                         </View>
-                    </View>
-                </TouchableHighlight>
+                    </TouchableHighlight>
+                    <Text style={styles.titleText}>{this.props.title}</Text>
+                    <View style={styles.filler}></View>
+                </View>
             </View>
         );
     }
@@ -45,18 +47,13 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#4176a7',
-        height: 48,
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: 3500
+        height: 48
     },
     button: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        height: 48,
-        marginRight: 16
+        height: 48
     },
     arrow: {
         marginLeft: 8
@@ -67,6 +64,17 @@ let styles = StyleSheet.create({
         fontWeight: '400',
         letterSpacing: 0.5,
         marginLeft: 6
+    },
+    titleText: {
+        flex: 2,
+        color: '#ffffff',
+        fontSize: Device.isIpad ? 20 : 16,
+        fontWeight: '400',
+        letterSpacing: 0.5,
+        textAlign: 'center'
+    },
+    filler: {
+        flex: 1
     },
     highlight: {
         borderRadius: 3,

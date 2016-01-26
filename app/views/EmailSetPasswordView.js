@@ -3,6 +3,7 @@
 import React           from 'react-native';
 import Device          from '../util/Device';
 import InitialLogoView from './InitialLogoView';
+import NavBarView      from './NavBarView';
 import model           from '../models/EmailLoginModel';
 
 let {
@@ -142,7 +143,10 @@ export default class EmailSetPasswordView extends React.Component {
         </View>;
 
         return (
-        <InitialLogoView subView={emailAndNext}/>
+            <View>
+                <NavBarView title='Password' navigator={this.props.navigator}/>
+                <InitialLogoView hideLogo={true} subView={emailAndNext}/>
+            </View>
         );
     }
     
@@ -152,8 +156,12 @@ let styles = StyleSheet.create({
     codeRow: {
         flex: 1,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 100
     },
+    
+    // TODO and WYLO .... On iPad these code inputs don't match the width of the 'Submit' button.
+    
     codeInput: {
         borderColor: '#bbbbbb',
         borderWidth: 1,

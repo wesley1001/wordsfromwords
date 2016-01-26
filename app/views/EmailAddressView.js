@@ -74,7 +74,7 @@ export default class EmailAddressView extends React.Component {
     
     render() {
         var emailAndNext = 
-            <View>
+            <View style={styles.container}>
                 <TextInput
                     autoCapitalize='none'
                     autoCorrect={false}
@@ -100,8 +100,8 @@ export default class EmailAddressView extends React.Component {
 
         return (
             <View>
-                <InitialLogoView subView={emailAndNext}/>
-                <NavBarView navigator={this.props.navigator}/>
+                <NavBarView title='Email' navigator={this.props.navigator}/>
+                <InitialLogoView hideLogo={true} subView={emailAndNext}/>
             </View>
         );
     }
@@ -109,6 +109,9 @@ export default class EmailAddressView extends React.Component {
 }
 
 let styles = StyleSheet.create({
+    container: {
+        marginTop: 100
+    },
     emailInput: {
         borderColor: '#bbbbbb',
         borderWidth: 1,
