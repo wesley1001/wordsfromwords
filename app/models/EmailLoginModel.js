@@ -29,6 +29,26 @@ class EmailLoginModel {
     set code1(value) {
         this._code1 = value;
     }
+
+    set code2(value) {
+        this._code2 = value;
+    }
+
+    set code3(value) {
+        this._code3 = value;
+    }
+
+    set code4(value) {
+        this._code4 = value;
+    }
+
+    set password1(value) {
+        this._password1 = value;
+    }
+
+    set password2(value) {
+        this._password2 = value;
+    }
     
     isEmailValid() {
         var atIndex = this._email.indexOf('@');

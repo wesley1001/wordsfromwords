@@ -1,6 +1,7 @@
 'use strict';
 
 import EmailAddressView from '../views/EmailAddressView';
+//import EmailSetPasswordView from '../views/EmailSetPasswordView';
 
 class LoginChoicesModel {
     

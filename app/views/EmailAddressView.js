@@ -62,9 +62,9 @@ export default class EmailAddressView extends React.Component {
                 });
             } else {
                 Alert.alert(
-                'Uh, yeah...',
-                "We're gonna need you to go ahead and enter a valid email address. Mmmkay?",
-                [{text: 'OK', onPress: () => this.refs.email.focus()}]
+                    'Uh, yeah...',
+                    "We're gonna need you to go ahead and enter a valid email address. Mmmkay?",
+                    [{text: 'OK', onPress: () => this.refs.email.focus()}]
                 );
             }
         } else {

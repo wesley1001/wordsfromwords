@@ -10,6 +10,7 @@ let {
     Alert,
     Image,
     StyleSheet,
+    Switch,
     Text,
     TextInput,
     TouchableHighlight,
@@ -27,12 +28,16 @@ export default class EmailSetPasswordView extends React.Component {
             code4: '',
             password1: '',
             password2: '',
-            showPassword: false
+            secureText: true
         };
     }
 
     componentDidMount() {
-        // TODO and WYLO .... Show the 'Security stuff...' alert
+        Alert.alert(
+            'Security stuff...',
+            "We've emailed you a code. Tap 'OK' to enter the code and set a password.",
+            [{text: 'OK', onPress: () => this.refs.code1.focus()}]
+        );
     }
     
     code1Changed(code1) {
@@ -70,10 +75,29 @@ export default class EmailSetPasswordView extends React.Component {
             model.code4 = code4;
             this.setState({code4});
             if (code4.length == 3) {
-                //this.refs.code4.focus();
-                // TODO .... Focus the password1 TextInput
+                this.refs.password1.focus();
             }
         }
+    }
+    
+    password1Changed(password1) {
+        if (!model.isFetching()) {
+            model.password1 = password1;
+            this.setState({password1});
+        }
+    }
+
+    password2Changed(password2) {
+        if (!model.isFetching()) {
+            model.password2 = password2;
+            this.setState({password2});
+        }
+    }
+    
+    showPasswordsChanged(value) {
+        this.refs.password1.blur();
+        this.refs.password2.blur();
+        this.setState({secureText: !value});
     }
 
     submitTapped() {
@@ -87,7 +111,6 @@ export default class EmailSetPasswordView extends React.Component {
                 <TextInput
                     autoCapitalize='none'
                     autoCorrect={false}
-                    autoFocus={false}
                     keyboardType='numeric'
                     maxLength={3}
                     ref='code1'
@@ -98,12 +121,11 @@ export default class EmailSetPasswordView extends React.Component {
                 />
                 <TextInput
                     autoCapitalize='none'
-                    autoCorrect={false}
                     autoFocus={false}
                     keyboardType='numeric'
                     maxLength={3}
                     ref='code2'
-                    style={styles.codeInput}
+                    style={[styles.codeInput, styles.codeInputSecond]}
                     onChangeText={(text) => this.code2Changed(text)}
                     //onSubmitEditing={() => this.emailSubmitted()}
                     value={this.state.code2}
@@ -111,11 +133,10 @@ export default class EmailSetPasswordView extends React.Component {
                 <TextInput
                     autoCapitalize='none'
                     autoCorrect={false}
-                    autoFocus={false}
                     keyboardType='numeric'
                     maxLength={3}
                     ref='code3'
-                    style={styles.codeInput}
+                    style={[styles.codeInput, styles.codeInputThird]}
                     onChangeText={(text) => this.code3Changed(text)}
                     //onSubmitEditing={() => this.emailSubmitted()}
                     value={this.state.code3}
@@ -123,7 +144,6 @@ export default class EmailSetPasswordView extends React.Component {
                 <TextInput
                     autoCapitalize='none'
                     autoCorrect={false}
-                    autoFocus={false}
                     keyboardType='numeric'
                     maxLength={3}
                     ref='code4'
@@ -133,8 +153,51 @@ export default class EmailSetPasswordView extends React.Component {
                     value={this.state.code4}
                 />
             </View>
+            
+            <View>
+                <TextInput
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    keyboardType='default'
+                    maxLength={512}
+                    placeholder='Password'
+                    placeholderTextColor='#777777'
+                    ref='password1'
+                    secureTextEntry={this.state.secureText}
+                    style={styles.passwordInput}
+                    onChangeText={(text) => this.password1Changed(text)}
+                    //onSubmitEditing={() => this.emailSubmitted()}
+                    value={this.state.password1}
+                />
+                <TextInput
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    keyboardType='default'
+                    maxLength={512}
+                    placeholder='Confirm'
+                    placeholderTextColor='#777777'
+                    ref='password2'
+                    secureTextEntry={this.state.secureText}
+                    style={styles.passwordInput}
+                    onChangeText={(text) => this.password2Changed(text)}
+                    //onSubmitEditing={() => this.emailSubmitted()}
+                    value={this.state.password2}
+                />
+            </View>
+
+            <View style={styles.showPasswordsRow}>
+                <Switch
+                    disabled={model.isFetching()}
+                    value={!this.state.secureText}
+                    onValueChange={(value) => this.showPasswordsChanged(value)}
+                />
+                <Text style={styles.showPasswordsText}>
+                    Show Passwords
+                </Text>
+            </View>
+            
             <TouchableHighlight style={styles.highlight} underlayColor={'#777777'} onPress={() => this.submitTapped()}>
-                <View style={styles.nextButton}>
+                <View style={styles.submitButton}>
                     <Text style={styles.submitText}>
                         Submit
                     </Text>
@@ -144,7 +207,7 @@ export default class EmailSetPasswordView extends React.Component {
 
         return (
             <View>
-                <NavBarView title='Password' navigator={this.props.navigator}/>
+                <NavBarView title='Code & Password' navigator={this.props.navigator}/>
                 <InitialLogoView hideLogo={true} subView={emailAndNext}/>
             </View>
         );
@@ -157,25 +220,53 @@ let styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 100
+        justifyContent: 'center',
+        marginTop: Device.isIpad ? 100 : 50,
+        marginBottom: 60,
+        width: Device.isIpad ? 400 : 248
     },
-    
-    // TODO and WYLO .... On iPad these code inputs don't match the width of the 'Submit' button.
-    
     codeInput: {
+        flex: 1,
         borderColor: '#bbbbbb',
         borderWidth: 1,
         color: '#ffffff',
         height: 48,
-        marginBottom: 24,
-        marginRight: 4,
-        textAlign: 'center',
-        width: 59
+        textAlign: 'center'
+    },
+    codeInputSecond: {
+        marginLeft: 4,
+        marginRight: 2
+    },
+    codeInputThird: {
+        marginLeft: 2,
+        marginRight: 4
+    },
+    passwordInput: {
+        borderColor: '#bbbbbb',
+        borderWidth: 1,
+        color: '#ffffff',
+        height: 48,
+        marginBottom: 18,
+        paddingLeft: 12,
+        width: Device.isIpad ? 400 : 248
+    },
+    showPasswordsRow: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 60
+    },
+    showPasswordsText: {
+        color: '#ffffff',
+        fontSize: Device.isIpad ? 20 : 16,
+        fontWeight: '400',
+        letterSpacing: 0.5,
+        marginLeft: 8
     },
     highlight: {
         borderRadius: 3
     },
-    nextButton: {
+    submitButton: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
