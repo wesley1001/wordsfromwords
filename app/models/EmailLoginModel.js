@@ -120,6 +120,28 @@ class EmailLoginModel {
             callback();
         });
     }
+    
+    submitCodeAndPassword(callback) {
+        var fullCode = this._code1 + this._code2 + this._code3 + this._code4;
+        if (!/^\d{12}$/.test(fullCode)) {
+            callback({invalidCode: true});
+            return;
+        }
+        
+        if (this._password1.length < 8) {
+            callback({invalidPassword: true});
+            return;
+        }
+        
+        if (this._password1 !== this._password2) {
+            callback({mismatch: true});
+            return;
+        }
+        
+        console.log('POSTing uuid:', this._uuid);
+        
+        // TODO and WYLO .... POST the uuid, code, and passwords to /api/email/passwords
+    }
 
 }
 

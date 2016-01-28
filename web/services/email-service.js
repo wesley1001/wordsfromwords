@@ -5,7 +5,11 @@ EmailService.prototype = {
     sendVerifyCode: function(email, rawCode, transport) {
         console.log('Sending', rawCode, 'to', email);
         
-        // TODO and WYLO .... Put spaces between each set of 3 numbers in the code (123 456 789 012)
+        var prettyCode = '';
+        var result = rawCode.match(/\d{3}/g);
+        for (var i = 0; i < result.length; i++) {
+            prettyCode += (result[i] + ' ');
+        }
         
         var mailOptions = {
             from: 'Words From Words <no-reply@wordsfromwords.com>',
@@ -13,7 +17,7 @@ EmailService.prototype = {
             subject: 'Words From Words Code',
             text: 'Hello!\n\n' +
             'If you requested a Words From Words account for this email address, please confirm it using this code within the next few minutes:\n\n' +
-            rawCode + '\n\n' +
+            prettyCode + '\n\n' +
             'Otherwise, just delete this email.\n\n' +
             'The absoulte warmest of regards,\n' +
             'Words From Words'

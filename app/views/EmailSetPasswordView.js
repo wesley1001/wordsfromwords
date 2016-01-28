@@ -99,9 +99,27 @@ export default class EmailSetPasswordView extends React.Component {
         this.refs.password2.blur();
         this.setState({secureText: !value});
     }
-
+    
     submitTapped() {
-        console.log('Submitting code and passwords...');
+        var view = this;
+        model.submitCodeAndPassword(function(reason) {
+            var title = 'Hmm...';
+            var message = 'Check the code. It should\nbe 4 sets of 3 numbers.';
+            
+            if (reason.invalidPassword) {
+                title = 'Too short...';
+                message = 'We find your lack of security disturbing (use 8 characters in your password).';
+            } else if (reason.mismatch) {
+                title = 'Typo...';
+                message = "The passwords don't match.";
+            }
+
+            Alert.alert(
+                title,
+                message,
+                [{text: 'OK', onPress: () => view.refs.password1.focus()}]
+            );
+        });
     }
     
     render() {
