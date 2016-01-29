@@ -69,7 +69,8 @@ LANGUAGE plpgsql;
 
 -- create_email_user()
 
-CREATE OR REPLACE FUNCTION create_email_user(uuidArg character(36), emailArg character varying(256), codeArg character(12)) RETURNS void AS
+CREATE OR REPLACE FUNCTION create_email_user(uuidArg character(36), emailArg character varying(256), codeArg character(12))
+RETURNS void AS
 $$
 BEGIN
 
@@ -78,6 +79,25 @@ BEGIN
         VALUES($1, $2, $3, localtimestamp)
     '
     USING uuidArg, emailArg, codeArg;
+    
+END;
+$$
+LANGUAGE plpgsql;
+
+
+-- get_code_and_exp()
+
+CREATE OR REPLACE FUNCTION get_code_and_exp(uuidArg character(36))
+RETURNS TABLE(code character(12), expired boolean) AS
+$$
+BEGIN
+
+    RETURN QUERY EXECUTE '
+        SELECT verify_code AS code, verify_code_exp + interval ''10 minutes'' < localtimestamp AS expired
+        FROM users
+        WHERE uuid = $1
+    '
+    USING uuidArg;
     
 END;
 $$

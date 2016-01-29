@@ -1,6 +1,7 @@
 -- psql -d wfw -a -f createEmailUser.sql
 
-CREATE OR REPLACE FUNCTION create_email_user(uuidArg character(36), emailArg character varying(256), codeArg character(12)) RETURNS void AS
+CREATE OR REPLACE FUNCTION create_email_user(uuidArg character(36), emailArg character varying(256), codeArg character(12))
+RETURNS void AS
 $$
 BEGIN
 

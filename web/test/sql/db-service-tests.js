@@ -125,6 +125,58 @@ describe('The db service', function() {
         
     });
     
+    describe('getCodeAndExp()', function() {
+
+        before(function(beforeDone) {
+            pg.connect(this.dbService.connectionString, function(err, client, done) {
+                if (err) {
+                    console.error('Error connecting to database:', err);
+                    return;
+                }
+                client.query("INSERT INTO users (uuid, email, verify_code, verify_code_exp) VALUES('31111111-2222-3333-4444-555555555555', 'foo@bar.com', '123456789123', localtimestamp)", function(err, result) {
+                    if (err) {
+                        console.error('Error inserting test user:', err);
+                        return;
+                    }
+                    if (!result || !result.rowCount || result.rowCount != 1) {
+                        console.error('Unknown error inserting test user.');
+                    }
+                    done();
+                    beforeDone();
+                });
+            });
+        });
+        
+        it('should return the code and false when not expired', function(done) {
+            this.dbService.getCodeAndExp('31111111-2222-3333-4444-555555555555', function(err, result) {
+                if (err) {
+                    console.error(err);
+                }
+                expect(result.code).to.equal('123456789123');
+                expect(result.expired).not.to.be.true;
+                done();
+            });
+        });
+
+        after(function(afterDone) {
+            pg.connect(this.dbService.connectionString, function(err, client, done) {
+                if (err) {
+                    console.error('Error connecting to database:', err);
+                    return;
+                }
+                client.query("DELETE FROM users WHERE uuid = '31111111-2222-3333-4444-555555555555'", function(err) {
+                    if (err) {
+                        console.error('Error deleting test user:', err);
+                        return;
+                    }
+                    done();
+                    afterDone();
+                });
+            });
+        });
+        
+    });
+    
     after(function() {
         this.dbService.end();
     });

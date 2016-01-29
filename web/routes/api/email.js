@@ -47,9 +47,20 @@ router.post('/create', function(req, res) {
                 return res.send({uuid: newUuid});
             });
         } else {
-            // TODO and WYLO 2 .... UPDATE verify_code and verify_code_exp WHERE email = email, then email the verify code using emailService.emailVerifyCode()
+            // TODO .... UPDATE verify_code and verify_code_exp WHERE email = email, then email the verify code using emailService.emailVerifyCode()
         }
     });
+});
+
+router.post('/passwords', function(req, res) {
+    var uuid = req.body.uuid;
+    var code = req.body.code;
+    var password1 = req.body.password1;
+    var password2 = req.body.password2;
+    if (!uuid || !code || !password1 || !password2) {
+        return res.send({error: 'Invalid data'});
+    }
+    // TODO and WYLO 1 .... Make a call to dbService.getCodeAndExp(uuid, function) to see if the code matches and is not expired.
 });
 
 module.exports = function(databaseService, emailConfig) {

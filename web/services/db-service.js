@@ -24,7 +24,7 @@ module.exports = {
             },
             function (err, rawResult) {
                 if (err) {
-                    callback('Error performing email_exists() query: ' + err);
+                    callback('Error performing get_uuid_and_password() query: ' + err);
                     return;
                 }
                 var result = {
@@ -54,10 +54,40 @@ module.exports = {
             },
             function (err) {
                 if (err) {
-                    callback('Error performing email_exists() query: ' + err);
+                    callback('Error performing create_email_user() query: ' + err);
                     return;
                 }
                 callback(null);
+                done();
+            });
+        });
+    },
+
+    getCodeAndExp: function(uuid, callback) {
+        pg.connect(this.connectionString, function(err, client, done) {
+            if (err) {
+                callback('Error getting client connection: ' + err);
+                return;
+            }
+            client.query({
+                name: 'get_code_and_exp_query',
+                text: 'SELECT * FROM get_code_and_exp($1)',
+                values: [uuid]
+            },
+            function (err, rawResult) {
+                if (err) {
+                    callback('Error performing get_code_and_exp() query: ' + err);
+                    return;
+                }
+                var result = {
+                    code: null,
+                    expired: null
+                };
+                if (rawResult && rawResult.rows && rawResult.rows[0]) {
+                    result.code = rawResult.rows[0].code;
+                    result.expired = rawResult.rows[0].expired;
+                }
+                callback(null, result);
                 done();
             });
         });
