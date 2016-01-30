@@ -138,9 +138,7 @@ class EmailLoginModel {
             return;
         }
         
-        console.log('POSTing uuid:', this._uuid);
-        
-        // TODO and WYLO 2 .... POST the uuid, code, and passwords to /api/email/passwords
+        // TODO and WYLO .... POST the uuid, code, and passwords to /api/email/passwords
     }
 
 }

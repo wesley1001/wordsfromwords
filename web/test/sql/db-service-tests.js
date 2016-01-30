@@ -176,6 +176,74 @@ describe('The db service', function() {
         });
         
     });
+
+    describe('setPassword()', function() {
+
+        before(function(beforeDone) {
+            pg.connect(this.dbService.connectionString, function(err, client, done) {
+                if (err) {
+                    console.error('Error connecting to database:', err);
+                    return;
+                }
+                client.query("INSERT INTO users (uuid, email, verify_code, verify_code_exp) VALUES('41111111-2222-3333-4444-555555555555', 'foo@bar.com', '123456789123', localtimestamp)", function(err, result) {
+                    if (err) {
+                        console.error('Error inserting test user:', err);
+                        return;
+                    }
+                    if (!result || !result.rowCount || result.rowCount != 1) {
+                        console.error('Unknown error inserting test user.');
+                    }
+                    done();
+                    beforeDone();
+                });
+            });
+        });
+
+        it('should set a user\'s password', function(itDone) {
+            var connectString = this.dbService.connectionString;
+            this.dbService.setPassword('password', '11111111-1111-1111-1111-111111111111', '41111111-2222-3333-4444-555555555555', function(err) {
+                if (err) {
+                    console.error(err);
+                }
+                pg.connect(connectString, function(err, client, done) {
+                    if (err) {
+                        console.error('Error connecting to database:', err);
+                        return;
+                    }
+                    client.query("SELECT * FROM users WHERE uuid = '41111111-2222-3333-4444-555555555555'", function(err, result) {
+                        if (err) {
+                            console.error('Error creating email user:', err);
+                            return;
+                        }
+                        if (!result || !result.rowCount || result.rowCount != 1) {
+                            console.error('Unknown error setting password.');
+                        }
+                        expect(result.rowCount).to.equal(1);
+                        done();
+                        itDone();
+                    });
+                });
+            });
+        });
+
+        after(function(afterDone) {
+            pg.connect(this.dbService.connectionString, function(err, client, done) {
+                if (err) {
+                    console.error('Error connecting to database:', err);
+                    return;
+                }
+                client.query("DELETE FROM users WHERE uuid = '41111111-2222-3333-4444-555555555555'", function(err) {
+                    if (err) {
+                        console.error('Error deleting test user:', err);
+                        return;
+                    }
+                    done();
+                    afterDone();
+                });
+            });
+        });
+
+    });
     
     after(function() {
         this.dbService.end();

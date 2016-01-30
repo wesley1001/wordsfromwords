@@ -53,14 +53,32 @@ router.post('/create', function(req, res) {
 });
 
 router.post('/passwords', function(req, res) {
-    var uuid = req.body.uuid;
+    var clientUuid = req.body.uuid;
     var code = req.body.code;
     var password1 = req.body.password1;
     var password2 = req.body.password2;
-    if (!uuid || !code || !password1 || !password2) {
+    if (!clientUuid || !code || !password1 || !password2 || (password1 !== password2) || password1.length > 512) {
         return res.send({error: 'Invalid data'});
     }
-    // TODO and WYLO 1 .... Make a call to dbService.getCodeAndExp(uuid, function) to see if the code matches and is not expired.
+    dbService.getCodeAndExp(clientUuid, function(err, result) {
+        if (err) {
+            return res.send({error: err});
+        }
+        if (result.code !== code) {
+            return res.send({error: 'code'});
+        }
+        if (!result.expired) {
+            var emailToken = uuid.v4();
+            dbService.setPassword(password1, emailToken, clientUuid, function(setPasswordErr) {
+                if (setPasswordErr) {
+                    return res.send({error: setPasswordErr});
+                }
+                return res.send({uuid: clientUuid, token: emailToken});
+            });
+        } else {
+            return res.send({error: 'expired'});
+        }
+    });
 });
 
 module.exports = function(databaseService, emailConfig) {
