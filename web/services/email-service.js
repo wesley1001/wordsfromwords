@@ -1,6 +1,15 @@
 function EmailService() {}
 
 EmailService.prototype = {
+    
+    createVerifyCode: function() {
+        var rawCode = '';
+        var pool = '0123456789';
+        for (var i = 0; i < 12; i++) {
+            rawCode += pool.charAt(Math.floor(Math.random() * pool.length));
+        }
+        return rawCode;
+    },
 
     sendVerifyCode: function(email, rawCode, transport) {
         console.log('Sending', rawCode, 'to', email);

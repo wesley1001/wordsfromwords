@@ -39,7 +39,7 @@ export default class EmailAddressView extends React.Component {
     showUnknownError() {
         Alert.alert(
             'Hmm...',
-            "Something went wrong. Check your network connection and try again."
+            'Something went wrong. Check your network connection and try again.'
         );
     }
     

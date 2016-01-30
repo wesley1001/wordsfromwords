@@ -32,11 +32,7 @@ router.post('/create', function(req, res) {
         if (result.uuid !== null && result.password !== null) {
             return res.status(400).send('Bad Request');
         }
-        var rawCode = '';
-        var pool = '0123456789';
-        for (var i = 0; i < 12; i++) {
-            rawCode += pool.charAt(Math.floor(Math.random() * pool.length));
-        }
+        var rawCode = emailService.createVerifyCode();
         if (result.uuid === null) {
             var newUuid = uuid.v4();
             dbService.createEmailUser(newUuid, email, rawCode, function(createErr) {
@@ -57,7 +53,8 @@ router.post('/passwords', function(req, res) {
     var code = req.body.code;
     var password1 = req.body.password1;
     var password2 = req.body.password2;
-    if (!clientUuid || !code || !password1 || !password2 || (password1 !== password2) || password1.length > 512) {
+    var email = req.body.email;
+    if (!clientUuid || !code || !password1 || !password2 || !email || (password1 !== password2) || password1.length > 512) {
         return res.send({error: 'Invalid data'});
     }
     dbService.getCodeAndExp(clientUuid, function(err, result) {
@@ -76,6 +73,8 @@ router.post('/passwords', function(req, res) {
                 return res.send({uuid: clientUuid, token: emailToken});
             });
         } else {
+            var rawCode = emailService.createVerifyCode();
+            // TODO .... UPDATE verify_code and verify_code_exp WHERE email = email, then email the verify code using emailService.emailVerifyCode()
             return res.send({error: 'expired'});
         }
     });

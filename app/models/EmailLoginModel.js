@@ -110,7 +110,7 @@ class EmailLoginModel {
             if (!response || !response.uuid || response.error) {
                 callback();
             } else {
-                console.log('Saving', response.uuid, 'to local storage...');
+                console.log('TODO: Save', response.uuid, 'to local storage...');
                 this._uuid = response.uuid;
                 this.navigator.push({component: this.emailSetPasswordView});
             }
@@ -137,8 +137,43 @@ class EmailLoginModel {
             callback({mismatch: true});
             return;
         }
+
+        this._fetching = true;
+
+        // TODO .... Need to figure out how to differentiate between the dev and prod URL...
         
-        // TODO and WYLO .... POST the uuid, code, and passwords to /api/email/passwords
+        fetch('http://192.168.1.2:3000/api/email/passwords', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: this._email,
+                uuid: this._uuid,
+                code: fullCode,
+                password1: this._password1,
+                password2: this._password2
+            })
+        }).then((rawResponse) => {
+            return rawResponse.json();
+        }).then((response) => {
+            this._fetching = false;
+            if (!response || (response.error && response.error !== 'code' && response.error !== 'expired')) {
+                callback({unknown: true});
+            } else if (response.error) {
+                var reason = {};
+                reason[response.error] = true; // Could be 'code' or 'expired'.
+                callback(reason);
+            } else {
+                console.log('TODO: Save', response.token, 'to local storage...');
+                console.log('TODO: Navigate to GameListView...');
+            }
+        }).catch((error) => {
+            console.log(error);
+            this._fetching = false;
+            callback({unknown: true});
+        });
     }
 
 }

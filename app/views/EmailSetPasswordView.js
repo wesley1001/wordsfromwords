@@ -112,12 +112,18 @@ export default class EmailSetPasswordView extends React.Component {
             } else if (reason.mismatch) {
                 title = 'Typo...';
                 message = "The passwords don't match.";
+            } else if (reason.unknown) {
+                message = 'Something went wrong. Check your network connection and try again.';
+            } else if (reason.code) {
+                message = "Your code isn't quite right.\nCheck it and try again.";
+            } else if (reason.expired) {
+                title = 'Too slow, Joe...';
+                message = "Your code has expired. We've\nemailed you another code.";
             }
 
             Alert.alert(
                 title,
-                message,
-                [{text: 'OK', onPress: () => view.refs.password1.focus()}]
+                message
             );
         });
     }

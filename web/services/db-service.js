@@ -125,6 +125,10 @@ module.exports = {
         });
     },
     
+    updateCodeAndExp: function(code, uuid, callback) {
+        // TODO and WYLO .... Get this unit tested and implemented.
+    },
+    
     end: function() {
         pg.end();
     }
