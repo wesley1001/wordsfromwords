@@ -140,7 +140,6 @@ export default class EmailSetPasswordView extends React.Component {
                     ref='code1'
                     style={styles.codeInput}
                     onChangeText={(text) => this.code1Changed(text)}
-                    //onSubmitEditing={() => this.emailSubmitted()}
                     value={this.state.code1}
                 />
                 <TextInput
@@ -151,7 +150,6 @@ export default class EmailSetPasswordView extends React.Component {
                     ref='code2'
                     style={[styles.codeInput, styles.codeInputSecond]}
                     onChangeText={(text) => this.code2Changed(text)}
-                    //onSubmitEditing={() => this.emailSubmitted()}
                     value={this.state.code2}
                 />
                 <TextInput
@@ -162,7 +160,6 @@ export default class EmailSetPasswordView extends React.Component {
                     ref='code3'
                     style={[styles.codeInput, styles.codeInputThird]}
                     onChangeText={(text) => this.code3Changed(text)}
-                    //onSubmitEditing={() => this.emailSubmitted()}
                     value={this.state.code3}
                 />
                 <TextInput
@@ -173,7 +170,6 @@ export default class EmailSetPasswordView extends React.Component {
                     ref='code4'
                     style={styles.codeInput}
                     onChangeText={(text) => this.code4Changed(text)}
-                    //onSubmitEditing={() => this.emailSubmitted()}
                     value={this.state.code4}
                 />
             </View>
@@ -190,7 +186,6 @@ export default class EmailSetPasswordView extends React.Component {
                     secureTextEntry={this.state.secureText}
                     style={styles.passwordInput}
                     onChangeText={(text) => this.password1Changed(text)}
-                    //onSubmitEditing={() => this.emailSubmitted()}
                     value={this.state.password1}
                 />
                 <TextInput
@@ -204,7 +199,6 @@ export default class EmailSetPasswordView extends React.Component {
                     secureTextEntry={this.state.secureText}
                     style={styles.passwordInput}
                     onChangeText={(text) => this.password2Changed(text)}
-                    //onSubmitEditing={() => this.emailSubmitted()}
                     value={this.state.password2}
                 />
             </View>

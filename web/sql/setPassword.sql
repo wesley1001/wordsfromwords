@@ -6,7 +6,7 @@ $$
 BEGIN
 
     EXECUTE '
-        UPDATE users SET password = $1, email_token = $2, email_token_exp = current_date, verify_code = NULL, verify_code_exp = NULL
+        UPDATE users SET password = $1, email_token = $2, email_token_exp = current_date + interval ''60 days'', verify_code = NULL, verify_code_exp = NULL
         WHERE uuid = $3
     '
     USING passwordArg, emailTokenArg, uuidArg;

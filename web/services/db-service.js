@@ -126,7 +126,25 @@ module.exports = {
     },
     
     updateCodeAndExp: function(code, uuid, callback) {
-        // TODO and WYLO .... Get this unit tested and implemented.
+        pg.connect(this.connectionString, function(err, client, done) {
+            if (err) {
+                callback('Error getting client connection: ' + err);
+            } else {
+                client.query({
+                    name: 'update_code_and_exp_query',
+                    text: 'SELECT update_code_and_exp($1, $2)',
+                    values: [code, uuid]
+                },
+                function (err) {
+                    if (err) {
+                        callback('Error performing update_code_and_exp() query: ' + err);
+                    } else {
+                        callback(null);
+                    }
+                    done();
+                });
+            }
+        });
     },
     
     end: function() {

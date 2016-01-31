@@ -1,5 +1,7 @@
 'use strict';
 
+import Env from '../util/Env';
+
 class EmailLoginModel {
 
     constructor() {
@@ -70,9 +72,7 @@ class EmailLoginModel {
         this._fetching = true;
         var encodedEmail = this.fixedEncodeURIComponent(this._email);
         
-        // TODO .... Need to figure out how to differentiate between the dev and prod URL...
-        
-        fetch('http://192.168.1.2:3000/api/email/exists/'+encodedEmail).then((rawResponse) => {
+        fetch(Env.getApiHost() + '/api/email/exists/'+encodedEmail).then((rawResponse) => {
             return rawResponse.json();
         }).then((response) => {
             this._fetching = false;
@@ -81,6 +81,7 @@ class EmailLoginModel {
             } else if (!response.exists) {
                 callback(true);
             } else {
+                // TODO ....
                 console.log('Navigate to EmailPasswordView...');
             }
         }).catch((error) => {
@@ -92,9 +93,7 @@ class EmailLoginModel {
     createAccount(callback) {
         this._fetching = true;
 
-        // TODO .... Need to figure out how to differentiate between the dev and prod URL...
-        
-        fetch('http://192.168.1.2:3000/api/email/create', {
+        fetch(Env.getApiHost() + '/api/email/create', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -110,6 +109,7 @@ class EmailLoginModel {
             if (!response || !response.uuid || response.error) {
                 callback();
             } else {
+                // TODO ....
                 console.log('TODO: Save', response.uuid, 'to local storage...');
                 this._uuid = response.uuid;
                 this.navigator.push({component: this.emailSetPasswordView});
@@ -140,9 +140,7 @@ class EmailLoginModel {
 
         this._fetching = true;
 
-        // TODO .... Need to figure out how to differentiate between the dev and prod URL...
-        
-        fetch('http://192.168.1.2:3000/api/email/passwords', {
+        fetch(Env.getApiHost() + '/api/email/passwords', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -166,7 +164,8 @@ class EmailLoginModel {
                 reason[response.error] = true; // Could be 'code' or 'expired'.
                 callback(reason);
             } else {
-                console.log('TODO: Save', response.token, 'to local storage...');
+                // TODO ....
+                console.log('TODO: Save email login token', response.token, 'to local storage...');
                 console.log('TODO: Navigate to GameListView...');
             }
         }).catch((error) => {

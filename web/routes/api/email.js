@@ -43,7 +43,13 @@ router.post('/create', function(req, res) {
                 return res.send({uuid: newUuid});
             });
         } else {
-            // TODO .... UPDATE verify_code and verify_code_exp WHERE email = email, then email the verify code using emailService.emailVerifyCode()
+            dbService.updateCodeAndExp(rawCode, result.uuid, function(updateErr) {
+                if (updateErr) {
+                    return res.send({error: updateErr});
+                }
+                emailService.sendVerifyCode(email, rawCode, transport);
+                return res.send({uuid: result.uuid});
+            });
         }
     });
 });
@@ -74,8 +80,13 @@ router.post('/passwords', function(req, res) {
             });
         } else {
             var rawCode = emailService.createVerifyCode();
-            // TODO .... UPDATE verify_code and verify_code_exp WHERE email = email, then email the verify code using emailService.emailVerifyCode()
-            return res.send({error: 'expired'});
+            dbService.updateCodeAndExp(rawCode, clientUuid, function(updateErr) {
+                if (updateErr) {
+                    return res.send({error: updateErr});
+                }
+                emailService.sendVerifyCode(email, rawCode, transport);
+                return res.send({error: 'expired'});
+            });
         }
     });
 });
