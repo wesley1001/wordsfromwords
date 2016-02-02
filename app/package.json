@@ -6,7 +6,9 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react-native": "^0.18.1"
+    "react-native": "^0.18.1",
+    "react-native-fbsdkcore": "0.0.8",
+    "react-native-fbsdklogin": "0.0.8"
   },
   "devDependencies": {
     "chai": "^3.4.1",
