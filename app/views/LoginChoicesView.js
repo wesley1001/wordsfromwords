@@ -20,10 +20,7 @@ export default class LoginChoicesView extends React.Component {
     }
     
     fbButtonPressed() {
-        // TODO and WYLO .... Try to get Facebook Login working using the login manager (make sure you have what you need for publish permissions):
-        //                    https://github.com/facebook/react-native-fbsdk/blob/master/react-native-fbsdklogin/js/FBSDKLoginManager.ios.js
-        
-        console.log('the facebook button was pressed');
+        model.tryFacebookLogin();
     }
     
     emailButtonPressed() {
