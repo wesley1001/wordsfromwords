@@ -5,7 +5,10 @@ import FBSDKCore        from 'react-native-fbsdkcore';
 import EmailAddressView from '../views/EmailAddressView';
 
 let {FBSDKLoginManager} = FBSDKLogin;
-let {FBSDKAccessToken}  = FBSDKCore;
+let {
+    FBSDKAccessToken,
+    FBSDKGraphRequest
+} = FBSDKCore;
 
 class LoginChoicesModel {
     
@@ -41,10 +44,22 @@ class LoginChoicesModel {
                      */
                     
                     FBSDKAccessToken.getCurrentAccessToken((token) => {
-                        console.log('Got a token...');
-                        console.log(token.tokenString);
-                        console.log('Logging out...');
-                        FBSDKLoginManager.logOut();
+                        if (token && token.tokenString) {
+                            console.log('Got a token...');
+                            console.log(token.tokenString);
+                            var graphRequest = new FBSDKGraphRequest((graphError, result) => {
+                                if (graphError) {
+                                    alert('Error making graph request:', graphError);
+                                } else {
+                                    // Data from request is in result
+                                    console.log('Result of graph request:', result);
+                                }
+                            }, '/me?fields=id,name');
+                            graphRequest.start();
+                        } else {
+                            console.log('Logging out...');
+                            FBSDKLoginManager.logOut();
+                        }
                     });
                 }
             }

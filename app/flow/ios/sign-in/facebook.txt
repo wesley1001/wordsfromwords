@@ -7,9 +7,31 @@ When the user taps the 'Sign in with Facebook' button on the LoginChoicesView:
 
     After successful login, LoginChoicesModel POSTs the user's fb_id and fb_token to /api/facebook/validate
 
-    /api/facebook/validate passes the fb_token to the Facebook Graph API and gets the user's id back
+    /api/facebook/validate passes the fb_token to the Facebook Graph API and gets the user_id back...
+    
+        https://graph.facebook.com/debug_token?input_token=USER_TOKEN&access_token=APP_ID|APP_SECRET
+        
+            ...which returns this when the user has authenticated via your app:
+        
+                {
+                   "data": {
+                      "app_id": "1720156654870532",
+                      "application": "Words From Words",
+                      "expires_at": 1459742153,
+                      "is_valid": true,
+                      "issued_at": 1454558153,
+                      "metadata": {
+                         "auth_type": "rerequest",
+                         "sso": "ios"
+                      },
+                      "scopes": [
+                         "public_profile"
+                      ],
+                      "user_id": "10153905045409771"
+                   }
+                }
 
-    if (fb_id === id) {
+    if (fb_id === user_id) {
 
         /api/facebook/validate looks up the uuid WHERE fb_token = fb_token
 
