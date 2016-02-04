@@ -181,12 +181,14 @@
     - When you're ready to send game requests:
         
         https://developers.facebook.com/docs/games/services/gamerequests
+        
         https://github.com/facebook/react-native-fbsdk/blob/master/react-native-fbsdkshare/FBSDKShare.ios.js
         
-        NOTES:
-        
-            + Evidently you don't need the publish_action permission to send game requests.
-            + Notice the "exports.FBSDKGameRequestDialog" in the code linked above.
+            NOTES:
+            
+                + Evidently you don't need the publish_action permission to send game requests.
+                
+                + Notice the "exports.FBSDKGameRequestDialog" in the code linked above.
 
 
 ============

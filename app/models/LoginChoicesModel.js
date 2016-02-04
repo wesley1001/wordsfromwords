@@ -5,7 +5,7 @@ import FBSDKCore        from 'react-native-fbsdkcore';
 import EmailAddressView from '../views/EmailAddressView';
 
 let {FBSDKLoginManager} = FBSDKLogin;
-//let {FBSDKAccessToken}  = FBSDKCore;
+let {FBSDKAccessToken}  = FBSDKCore;
 
 class LoginChoicesModel {
     
@@ -40,19 +40,12 @@ class LoginChoicesModel {
                         
                      */
                     
-                    // TODO and WYLO 1 .... Go through the setup options for the core so you can store the access token:
-                    //                      https://github.com/facebook/react-native-fbsdk/tree/master/react-native-fbsdkcore#installation
-
-                    // TODO and WYLO 2 .... Go through the setup options for the share so you can store the access token:
-                    //                      https://github.com/facebook/react-native-fbsdk/tree/master/react-native-fbsdkshare#installation
-                    
-                    // TODO and WYLO 3 .... Uncomment the code below and see if it works!
-                    
-                    //console.log('Logging out');
-                    //FBSDKAccessToken.getCurrentAccessToken((token) => {
-                    //    console.log(token.tokenString);
-                    //    FBSDKLoginManager.logOut();
-                    //});
+                    FBSDKAccessToken.getCurrentAccessToken((token) => {
+                        console.log('Got a token...');
+                        console.log(token.tokenString);
+                        console.log('Logging out...');
+                        FBSDKLoginManager.logOut();
+                    });
                 }
             }
         })
