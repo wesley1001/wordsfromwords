@@ -57,10 +57,12 @@ function(username, password, done) {
 var index = require('./routes/index')(dbService);
 
 /* APIs */
-var email = require('./routes/api/email')(dbService, appConfig.get('config.email.noreply'));
+var email    = require('./routes/api/email')(dbService, appConfig.get('config.email.noreply'));
+var facebook = require('./routes/api/facebook')(dbService, appConfig.get('config.app'));
 
 app.use('/', index);
 app.use('/api/email', email);
+app.use('/api/facebook', facebook);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

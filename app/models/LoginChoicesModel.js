@@ -3,6 +3,7 @@
 import FBSDKLogin       from 'react-native-fbsdklogin';
 import FBSDKCore        from 'react-native-fbsdkcore';
 import EmailAddressView from '../views/EmailAddressView';
+import Env              from '../util/Env';
 
 let {FBSDKLoginManager} = FBSDKLogin;
 let {
@@ -53,6 +54,36 @@ class LoginChoicesModel {
                                 } else {
                                     // Data from request is in result
                                     console.log('Result of graph request:', result);
+                                    
+                                    fetch(Env.getApiHost() + '/api/facebook/validate', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            fbId: result.id,
+                                            fbToken: token.tokenString
+                                        })
+                                    }).then((rawResponse) => {
+                                        return rawResponse.json();
+                                    }).then((response) => {
+                                        //this._fetching = false;
+                                        if (!response || !response.uuid || response.error) {
+                                            console.log('Error:', response.error);
+                                            //callback();
+                                        } else {
+                                            // TODO ....
+                                            console.log('TODO: Save', response.uuid, 'to local storage and navigate to GameListView...');
+                                            //this._uuid = response.uuid;
+                                            //this.navigator.push({component: this.emailSetPasswordView});
+                                        }
+                                    }).catch((error) => {
+                                        console.log(error);
+                                        //this._fetching = false;
+                                        //callback();
+                                    });
+                                    
                                 }
                             }, '/me?fields=id,name');
                             graphRequest.start();

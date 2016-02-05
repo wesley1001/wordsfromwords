@@ -1,5 +1,9 @@
 {
   "config": {
+    "app": {
+      "id": "APP_ID",
+      "secret": "APP_SECRET"
+    },
     "db": {
       "username": "WFW_DB_USERNAME",
       "password": "WFW_DB_PASSWORD"
