@@ -57,7 +57,7 @@ FacebookService.prototype = {
                user.data.user_id === fbId &&
                user.data.app_id === appConfig.id &&
                user.data.expires_at &&
-               user.data.expires_at > Date.now();
+               user.data.expires_at > Date.now() / 1000;
     }
     
 };

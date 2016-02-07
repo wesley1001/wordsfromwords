@@ -34,7 +34,7 @@ class LoginChoicesModel {
                     console.log('Logged in! Result:', result);
                     
                     /*
-                        This is what the result looked like:
+                        This is what the result looks like:
 
                         {
                             isCancelled: false,
@@ -55,8 +55,6 @@ class LoginChoicesModel {
                                     // Data from request is in result
                                     console.log('Result of graph request:', result);
                                     
-                                    // TODO and WYLO 2 .... For the value of displayName below, only insert the first name (i.e. all chars up to but not including the first space)
-                                    
                                     fetch(Env.getApiHost() + '/api/facebook/validate', {
                                         method: 'POST',
                                         headers: {
@@ -65,7 +63,7 @@ class LoginChoicesModel {
                                         },
                                         body: JSON.stringify({
                                             fbId: result.id,
-                                            displayName: result.name,
+                                            displayName: result.name.substring(0, result.name.indexOf(' ')),
                                             fbToken: token.tokenString
                                         })
                                     }).then((rawResponse) => {
@@ -76,7 +74,9 @@ class LoginChoicesModel {
                                             console.log('Error:', response.error);
                                             //callback();
                                         } else {
-                                            // TODO ....
+                                            
+                                            // TODO and WYLO .... Now that you have email/fb account creation working, get /api/mobile/relogin working.
+                                            
                                             console.log('TODO: Save', response.uuid, 'to local storage and navigate to GameListView...');
                                             //this._uuid = response.uuid;
                                             //this.navigator.push({component: this.emailSetPasswordView});

@@ -28,14 +28,17 @@ router.post('/validate', function(req, res) {
             var userUuid = '';
             if (result.uuid === null) {
                 userUuid = uuid.v4();
-                // TODO and WYLO 1 .... Use dbService.createFbUser() to INSERT userUuid, fbId, fbToken, fbTokenExp, displayName
-                //
-                //                      For the value of fbTokenExp, do this: new Date(user.expires_at * 1000).toISOString()
+                dbService.createFbUser(userUuid, fbId, fbToken, new Date(user.data.expires_at * 1000).toISOString(), displayName, function(createErr) {
+                    if (createErr) {
+                        return res.send({error: createErr});
+                    }
+                    return res.send({uuid: userUuid});
+                });
             } else {
                 userUuid = result.uuid;
-                // TODO and WYLO 3 .... UPDATE fbToken WHERE uuid = userUuid
+                // TODO .... UPDATE fbToken WHERE uuid = userUuid
+                return res.send({uuid: userUuid}); // TODO .... <= This should actually go inside the dbService callback.
             }
-            return res.send({uuid: userUuid});
         });
     });
 });
