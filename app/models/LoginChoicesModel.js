@@ -55,6 +55,8 @@ class LoginChoicesModel {
                                     // Data from request is in result
                                     console.log('Result of graph request:', result);
                                     
+                                    // TODO and WYLO 2 .... For the value of displayName below, only insert the first name (i.e. all chars up to but not including the first space)
+                                    
                                     fetch(Env.getApiHost() + '/api/facebook/validate', {
                                         method: 'POST',
                                         headers: {
@@ -63,6 +65,7 @@ class LoginChoicesModel {
                                         },
                                         body: JSON.stringify({
                                             fbId: result.id,
+                                            displayName: result.name,
                                             fbToken: token.tokenString
                                         })
                                     }).then((rawResponse) => {

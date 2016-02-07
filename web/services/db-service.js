@@ -147,6 +147,56 @@ module.exports = {
         });
     },
     
+    getUuidByFbToken: function(fbToken, callback) {
+        pg.connect(this.connectionString, function(err, client, done) {
+            if (err) {
+                callback('Error getting client connection: ' + err);
+            } else {
+                client.query({
+                    name: 'get_uuid_by_fb_token_query',
+                    text: 'SELECT * FROM get_uuid_by_fb_token($1)',
+                    values: [fbToken]
+                },
+                function (err, rawResult) {
+                    if (err) {
+                        callback('Error performing get_uuid_by_fb_token() query: ' + err);
+                    } else {
+                        var result = {
+                            uuid: null
+                        };
+                        if (rawResult && rawResult.rows && rawResult.rows[0]) {
+                            result.uuid = rawResult.rows[0].uuid;
+                        }
+                        callback(null, result);
+                    }
+                    done();
+                });
+            }
+        });
+    },
+    
+    createFbUser: function(uuid, fbId, fbToken, fbTokenExp, displayName, callback) {
+        pg.connect(this.connectionString, function(err, client, done) {
+            if (err) {
+                callback('Error getting client connection: ' + err);
+            } else {
+                client.query({
+                    name: 'create_fb_user_query',
+                    text: 'SELECT create_fb_user($1, $2, $3, $4, $5)',
+                    values: [uuid, fbId, fbToken, fbTokenExp, displayName]
+                },
+                function (err) {
+                    if (err) {
+                        callback('Error performing create_fb_user() query: ' + err);
+                    } else {
+                        callback(null);
+                    }
+                    done();
+                });
+            }
+        });
+    },
+    
     end: function() {
         pg.end();
     }

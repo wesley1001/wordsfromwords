@@ -20,7 +20,6 @@ TODO and WYLO ....
                       "app_id": "1720156654870532",
                       "application": "Words From Words",
                       "expires_at": 1459742153,
-                                    1454590520
                       "is_valid": true,
                       "issued_at": 1454558153,
                       "metadata": {

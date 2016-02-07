@@ -4,6 +4,28 @@ function FacebookService() {}
 
 FacebookService.prototype = {
     
+    /*
+        For reference, this is what Facebook returns from https://graph.facebook.com/debug_token
+        
+             {
+                 "data": {
+                     "app_id": "1720156654870532",
+                     "application": "Words From Words",
+                     "expires_at": 1459742153,
+                     "is_valid": true,
+                     "issued_at": 1454558153,
+                     "metadata": {
+                         "auth_type": "rerequest",
+                         "sso": "ios"
+                     },
+                     "scopes": [
+                        "public_profile"
+                     ],
+                     "user_id": "10153905045409771"
+                 }
+             }
+     */
+    
     getUserByToken: function(token, appConfig, callback) {
         var result = '';
         var options = {
@@ -28,6 +50,14 @@ FacebookService.prototype = {
             callback({error: error.message});
         });
         request.end();
+    },
+    
+    isValidUser: function(user, fbId, appConfig) {
+        return user.data &&
+               user.data.user_id === fbId &&
+               user.data.app_id === appConfig.id &&
+               user.data.expires_at &&
+               user.data.expires_at > Date.now();
     }
     
 };

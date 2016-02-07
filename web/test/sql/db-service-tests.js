@@ -313,6 +313,123 @@ describe('The db service', function() {
 
     });
     
+    describe('getUuidByFbToken()', function() {
+        
+        describe('when the user does not exist', function() {
+            
+            it('should return null for the uuid', function(itDone) {
+                var connectString = this.dbService.connectionString;
+                this.dbService.getUuidByFbToken('abc123', function(err, result) {
+                    expect(err).to.be.null;
+                    expect(result).not.to.be.null;
+                    expect(result.uuid).to.be.null;
+                    itDone();
+                })
+            });
+            
+        });
+        
+        describe('when the user exists', function() {
+            
+            before(function(beforeDone) {
+                pg.connect(this.dbService.connectionString, function(err, client, done) {
+                    if (err) {
+                        console.error('Error connecting to database:', err);
+                        return;
+                    }
+                    client.query("INSERT INTO users (uuid, fb_token) VALUES('61111111-2222-3333-4444-555555555555', 'abc123')", function(err, result) {
+                        if (err) {
+                            console.error('Error inserting test user:', err);
+                            return;
+                        }
+                        if (!result || !result.rowCount || result.rowCount != 1) {
+                            console.error('Unknown error inserting test user.');
+                        }
+                        done();
+                        beforeDone();
+                    });
+                });
+            });
+
+            it('should return the uuid', function(itDone) {
+                var connectString = this.dbService.connectionString;
+                this.dbService.getUuidByFbToken('abc123', function(err, result) {
+                    expect(err).to.be.null;
+                    expect(result.uuid).to.equal('61111111-2222-3333-4444-555555555555');
+                    itDone();
+                })
+            });
+
+            after(function(afterDone) {
+                pg.connect(this.dbService.connectionString, function(err, client, done) {
+                    if (err) {
+                        console.error('Error connecting to database:', err);
+                        return;
+                    }
+                    client.query("DELETE FROM users WHERE uuid = '61111111-2222-3333-4444-555555555555'", function(err) {
+                        if (err) {
+                            console.error('Error deleting test user:', err);
+                            return;
+                        }
+                        done();
+                        afterDone();
+                    });
+                });
+            });
+            
+        });
+        
+    });
+    
+    describe('createFbUser()', function() {
+
+        it('should insert a new Facebook user', function(itDone) {
+            var connectString = this.dbService.connectionString;
+            var fbTokenExp = new Date(1459742153 * 1000);
+            this.dbService.createFbUser('71111111-2222-3333-4444-555555555555', '123', 'abc', fbTokenExp.toISOString(), 'Rob', function(err) {
+                if (err) {
+                    console.error(err);
+                }
+                pg.connect(connectString, function(err, client, done) {
+                    if (err) {
+                        console.error('Error connecting to database:', err);
+                        return;
+                    }
+                    client.query("SELECT * FROM users WHERE uuid = '71111111-2222-3333-4444-555555555555'", function(err, result) {
+                        if (err) {
+                            console.error('Error creating Facebook user:', err);
+                            return;
+                        }
+                        if (!result || !result.rowCount || result.rowCount != 1) {
+                            console.error('Unknown error creating Facebook user.');
+                        }
+                        expect(result.rowCount).to.equal(1);
+                        done();
+                        itDone();
+                    });
+                });
+            });
+        });
+
+        after(function(afterDone) {
+            pg.connect(this.dbService.connectionString, function(err, client, done) {
+                if (err) {
+                    console.error('Error connecting to database:', err);
+                    return;
+                }
+                client.query("DELETE FROM users WHERE uuid = '71111111-2222-3333-4444-555555555555'", function(err) {
+                    if (err) {
+                        console.error('Error deleting test user:', err);
+                        return;
+                    }
+                    done();
+                    afterDone();
+                });
+            });
+        });
+        
+    });
+    
     after(function() {
         this.dbService.end();
     });
