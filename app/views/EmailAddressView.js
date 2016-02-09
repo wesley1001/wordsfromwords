@@ -6,6 +6,7 @@ import InitialLogoView      from './InitialLogoView';
 import NavBarView           from './NavBarView';
 import model                from '../models/EmailLoginModel';
 import EmailSetPasswordView from './EmailSetPasswordView';
+import EmailPasswordView    from './EmailPasswordView';
 
 let {
     Alert,
@@ -27,6 +28,7 @@ export default class EmailAddressView extends React.Component {
     componentDidMount() {
         model.setNavigator(this.props.navigator);
         model.setEmailSetPasswordView(EmailSetPasswordView);
+        model.setEmailPasswordView(EmailPasswordView);
     }
     
     emailChanged(email) {

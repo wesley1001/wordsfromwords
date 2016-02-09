@@ -35,7 +35,7 @@ export default class EmailSetPasswordView extends React.Component {
     componentDidMount() {
         Alert.alert(
             'Security stuff...',
-            "We've emailed you a code. Tap 'OK' to enter the code and set a password.",
+            "We've emailed you a code. Enter\nthe code and set a password.",
             [{text: 'OK', onPress: () => this.refs.code1.focus()}]
         );
     }

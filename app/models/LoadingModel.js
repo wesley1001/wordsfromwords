@@ -10,7 +10,7 @@ let {
 export default class LoadingModel {
     
     initialize(navigator) {
-        let uuid  = null;
+        let uuid = null;
         
         AsyncStorage.getItem('uuid').then((value) => {
             uuid = value;

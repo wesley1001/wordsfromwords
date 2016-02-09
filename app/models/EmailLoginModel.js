@@ -11,7 +11,8 @@ class EmailLoginModel {
         this._code2 = '';
         this._code3 = '';
         this._code4 = '';
-        this._password1 = '';
+        this._password = '';  // Used for login.
+        this._password1 = ''; // Used for registration.
         this._password2 = '';
         this._fetching = false;
     }
@@ -20,8 +21,12 @@ class EmailLoginModel {
         this.navigator = navigator;
     }
     
-    setEmailSetPasswordView (emailSetPasswordView) {
+    setEmailSetPasswordView(emailSetPasswordView) {
         this.emailSetPasswordView = emailSetPasswordView;
+    }
+    
+    setEmailPasswordView(emailPasswordView) {
+        this.emailPasswordView = emailPasswordView;
     }
     
     set email(value) {
@@ -44,6 +49,10 @@ class EmailLoginModel {
         this._code4 = value;
     }
 
+    set password(value) {
+        this._password = value;
+    }
+    
     set password1(value) {
         this._password1 = value;
     }
@@ -55,6 +64,10 @@ class EmailLoginModel {
     isEmailValid() {
         var atIndex = this._email.indexOf('@');
         return atIndex > 0 && atIndex < this._email.length - 1;
+    }
+    
+    isPasswordValid() {
+        return this._password.length >= 8;
     }
     
     isFetching() {
@@ -81,8 +94,7 @@ class EmailLoginModel {
             } else if (!response.exists) {
                 callback(true);
             } else {
-                // TODO ....
-                console.log('Navigate to EmailPasswordView...');
+                this.navigator.push({component: this.emailPasswordView});
             }
         }).catch((error) => {
             this._fetching = false;
