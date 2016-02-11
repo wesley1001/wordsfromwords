@@ -238,7 +238,11 @@
     - So the @2x iPad logo will be ? x ? pixels
 
 
+============
+    TODO
+============
 
+    - What if someone wants to switch from logging in via email to logging in via Facebook?
 
 
 

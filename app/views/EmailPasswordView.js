@@ -30,6 +30,7 @@ export default class EmailPasswordView extends React.Component {
 
     componentDidMount() {
         model.setNavigator(this.props.navigator);
+        model.setEmailSetPasswordView(EmailSetPasswordView);
     }
 
     passwordChanged(password) {
@@ -49,6 +50,21 @@ export default class EmailPasswordView extends React.Component {
     showPasswordChanged(value) {
         this.refs.password.blur();
         this.setState({secureText: !value});
+    }
+    
+    resetTapped() {
+        if (!model.isFetching()) {
+            if (model.isEmailValid()) {
+                Alert.alert(
+                    'Forgot, huh?',
+                    'Are you sure you want to\nreset your password?',
+                    [
+                        {text: 'Yes', onPress: () => model.resetPassword(this.showUnknownError)},
+                        {text: 'No'}
+                    ]
+                );
+            }
+        }
     }
 
     passwordSubmitted() {
@@ -80,8 +96,6 @@ export default class EmailPasswordView extends React.Component {
                 });
             }
             */
-        } else {
-            console.log('Alredy checking...');
         }
     }
 
@@ -116,15 +130,21 @@ export default class EmailPasswordView extends React.Component {
                 </View>
                 
                 <TouchableHighlight style={styles.highlight} underlayColor={'#777777'} onPress={() => this.passwordSubmitted()}>
-                    <View style={styles.submitButton}>
-                        <Text style={styles.submitText}>
-                            Submit
+                    <View style={styles.signInButton}>
+                        <Text style={styles.signInText}>
+                            Sign In
+                        </Text>
+                    </View>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={styles.highlight} underlayColor={'#617dc4'} onPress={() => this.resetTapped()}>
+                    <View style={styles.resetButton}>
+                        <Text style={styles.resetText}>
+                            Reset Password
                         </Text>
                     </View>
                 </TouchableHighlight>
             </View>;
-        
-        // TODO and WYLO .... You need a 'Forgot Password?' link here.
         
         return (
             <View>
@@ -152,22 +172,41 @@ let styles = StyleSheet.create({
     highlight: {
         borderRadius: 3
     },
-    submitButton: {
+    signInButton: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#cccccc',
         borderRadius: 3,
         justifyContent: 'center',
+        marginBottom: 24,
         paddingTop: 14,
         paddingBottom: 14,
         width: Device.isIpad ? 400 : 248
     },
-    submitText: {
+    signInText: {
         color: '#3b579d',
         fontSize: Device.isIpad ? 20 : 16,
         fontWeight: '400',
         letterSpacing: 0.5
+    },
+    resetButton: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#3b579d',
+        borderRadius: 3,
+        justifyContent: 'center',
+        paddingTop: 14,
+        paddingBottom: 14,
+        width: Device.isIpad ? 400 : 248
+    },
+    resetText: {
+        color: '#ffffff',
+        fontSize: Device.isIpad ? 20 : 16,
+        fontWeight: '400',
+        letterSpacing: 0.5,
+        marginLeft: Device.isIpad ? 16 : 11
     },
     showPasswordRow: {
         flex: 1,

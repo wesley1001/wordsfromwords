@@ -1,6 +1,9 @@
 'use strict';
 
-import Env from '../util/Env';
+import React from 'react-native';
+import Env   from '../util/Env';
+
+let {AsyncStorage} = React;
 
 class EmailLoginModel {
 
@@ -121,8 +124,7 @@ class EmailLoginModel {
             if (!response || !response.uuid || response.error) {
                 callback();
             } else {
-                // TODO ....
-                console.log('TODO: Save', response.uuid, 'to local storage...');
+                AsyncStorage.setItem('uuid', response.uuid);
                 this._uuid = response.uuid;
                 this.navigator.push({component: this.emailSetPasswordView});
             }
@@ -176,14 +178,43 @@ class EmailLoginModel {
                 reason[response.error] = true; // Could be 'code' or 'expired'.
                 callback(reason);
             } else {
-                // TODO ....
-                console.log('TODO: Save email login token', response.token, 'to local storage...');
+                AsyncStorage.setItem('token', response.token);
                 console.log('TODO: Navigate to GameListView...');
             }
         }).catch((error) => {
             console.log(error);
             this._fetching = false;
             callback({unknown: true});
+        });
+    }
+
+    resetPassword(callback) {
+        this._fetching = true;
+        
+        fetch(Env.getApiHost() + '/api/email/forgot', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uuid: this._uuid,
+                email: this._email
+            })
+        }).then((rawResponse) => {
+            return rawResponse.json();
+        }).then((response) => {
+            this._fetching = false;
+            if (!response || response.error) {
+                console.log('error:', response.error);
+                callback();
+            } else {
+                this.navigator.push({component: this.emailSetPasswordView});
+            }
+        }).catch((error) => {
+            console.log(error);
+            this._fetching = false;
+            callback();
         });
     }
 

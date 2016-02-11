@@ -35,6 +35,9 @@ router.post('/create', function(req, res) {
         var rawCode = emailService.createVerifyCode();
         if (result.uuid === null) {
             var newUuid = uuid.v4();
+            
+            // TODO .... Use the first part of the email address as the display_name
+            
             dbService.createEmailUser(newUuid, email, rawCode, function(createErr) {
                 if (createErr) {
                     return res.send({error: createErr});
@@ -86,6 +89,34 @@ router.post('/passwords', function(req, res) {
                 }
                 emailService.sendVerifyCode(email, rawCode, transport);
                 return res.send({error: 'expired'});
+            });
+        }
+    });
+});
+
+router.post('/forgot', function(req, res) {
+    var clientUuid = req.body.uuid;
+    var email = req.body.email;
+    if (!clientUuid) {
+        return res.send({error: 'Invalid data.'});
+    }
+    if (!email) {
+        return res.send({error: 'Please provide your email address.'});
+    }
+    dbService.getCodeAndExp(clientUuid, function(err, result) {
+        if (err) {
+            return res.send({error: err});
+        }
+        if (!result.expired) {
+            return res.send({notExpired: true});
+        } else {
+            var rawCode = emailService.createVerifyCode();
+            dbService.updateCodeAndExp(rawCode, clientUuid, function(updateErr) {
+                if (updateErr) {
+                    return res.send({error: updateErr});
+                }
+                emailService.sendPasswordReset(email, rawCode, transport);
+                return res.send({codeEmailed: true});
             });
         }
     });

@@ -12,8 +12,6 @@ EmailService.prototype = {
     },
 
     sendVerifyCode: function(email, rawCode, transport) {
-        console.log('Sending', rawCode, 'to', email);
-        
         var prettyCode = '';
         var result = rawCode.match(/\d{3}/g);
         for (var i = 0; i < result.length; i++) {
@@ -36,6 +34,10 @@ EmailService.prototype = {
                 console.log('Error sending email:', err);
             }
         });
+    },
+    
+    sendPasswordReset: function() {
+        
     }
     
 };

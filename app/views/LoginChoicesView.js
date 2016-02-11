@@ -49,6 +49,7 @@ export default class LoginChoicesView extends React.Component {
                         </Text>
                     </View>
                 </TouchableHighlight>
+                
                 <TouchableHighlight style={styles.highlight} underlayColor={'#777777'} onPress={this.emailButtonPressed}>
                     <View style={styles.emailButton}>
                         {emailIcon}

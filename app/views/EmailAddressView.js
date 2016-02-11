@@ -69,8 +69,6 @@ export default class EmailAddressView extends React.Component {
                     [{text: 'OK', onPress: () => this.refs.email.focus()}]
                 );
             }
-        } else {
-            console.log('Alredy checking...');
         }
     }
     
