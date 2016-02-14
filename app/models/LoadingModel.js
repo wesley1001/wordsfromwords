@@ -14,7 +14,6 @@ export default class LoadingModel {
         
         AsyncStorage.getItem('uuid').then((value) => {
             uuid = value;
-            console.log('uuid at launch is:', uuid);
             return AsyncStorage.getItem('token');
         }).then((token) => {
             if (uuid && token) {

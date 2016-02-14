@@ -357,7 +357,7 @@ describe('The db service', function() {
                     expect(err).to.be.null;
                     expect(result.uuid).to.equal('61111111-2222-3333-4444-555555555555');
                     itDone();
-                })
+                });
             });
 
             after(function(afterDone) {
@@ -418,6 +418,57 @@ describe('The db service', function() {
                     return;
                 }
                 client.query("DELETE FROM users WHERE uuid = '71111111-2222-3333-4444-555555555555'", function(err) {
+                    if (err) {
+                        console.error('Error deleting test user:', err);
+                        return;
+                    }
+                    done();
+                    afterDone();
+                });
+            });
+        });
+        
+    });
+    
+    describe('getTokensByUuid()', function() {
+
+        before(function(beforeDone) {
+            pg.connect(this.dbService.connectionString, function(err, client, done) {
+                if (err) {
+                    console.error('Error connecting to database:', err);
+                    return;
+                }
+                client.query("INSERT INTO users (uuid, email_token, email_token_exp, fb_id, fb_token, fb_token_exp) VALUES('81111111-2222-3333-4444-555555555555', '11111111-2222-3333-4444-555555555555', NOW(), 'abc123', '123abc', localtimestamp)", function(err, result) {
+                    if (err) {
+                        console.error('Error inserting test user:', err);
+                        return;
+                    }
+                    if (!result || !result.rowCount || result.rowCount != 1) {
+                        console.error('Unknown error inserting test user.');
+                    }
+                    done();
+                    beforeDone();
+                });
+            });
+        });
+        
+        it('should return the tokens and their expirations', function(itDone) {
+            this.dbService.getTokensByUuid('81111111-2222-3333-4444-555555555555', function(err, result) {
+                expect(err).to.be.null;
+                expect(result.emailToken).to.equal('11111111-2222-3333-4444-555555555555');
+                expect(result.fbId).to.equal('abc123');
+                expect(result.fbToken).to.equal('123abc');
+                itDone();
+            });
+        });
+
+        after(function(afterDone) {
+            pg.connect(this.dbService.connectionString, function(err, client, done) {
+                if (err) {
+                    console.error('Error connecting to database:', err);
+                    return;
+                }
+                client.query("DELETE FROM users WHERE uuid = '81111111-2222-3333-4444-555555555555'", function(err) {
                     if (err) {
                         console.error('Error deleting test user:', err);
                         return;

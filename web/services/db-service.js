@@ -197,6 +197,42 @@ module.exports = {
         });
     },
     
+    getTokensByUuid: function(uuid, callback) {
+        pg.connect(this.connectionString, function(err, client, done) {
+            if (err) {
+                callback('Error getting client connection: ' + err);
+            } else {
+                client.query({
+                    name: 'get_tokens_by_uuid_query',
+                    text: 'SELECT * FROM get_tokens_by_uuid($1)',
+                    values: [uuid]
+                },
+                function (err, rawResult) {
+                    if (err) {
+                        callback('Error performing get_tokens_by_uuid() query: ' + err);
+                    } else {
+                        var result = {
+                            emailToken:    null,
+                            emailTokenExp: null,
+                            fbId:          null,
+                            fbToken:       null,
+                            fbTokenExp:    null
+                        };
+                        if (rawResult && rawResult.rows && rawResult.rows[0]) {
+                            result.emailToken    = rawResult.rows[0].email_token;
+                            result.emailTokenExp = rawResult.rows[0].email_token_exp;
+                            result.fbId          = rawResult.rows[0].fb_id;
+                            result.fbToken       = rawResult.rows[0].fb_token;
+                            result.fbTokenExp    = rawResult.rows[0].fb_token_exp;
+                        }
+                        callback(null, result);
+                    }
+                    done();
+                });
+            }
+        });
+    },
+    
     end: function() {
         pg.end();
     }

@@ -19,30 +19,34 @@ When the app is launched:
 
             LoadingModel POSTs uuid and token to /api/mobile/relogin
 
-            /api/mobile/relogin looks up the email_token, email_token_exp, fb_id, and fb_token WHERE uuid = uuid
+            /api/mobile/relogin looks up the email_token, email_token_exp, fb_id, fb_token, and fb_token_exp WHERE uuid = uuid
 
             if (token === fb_token) {
+            
+                if (fb_token_exp < current server time) {
 
-                /api/mobile/relogin passes the fb_token to the Facebook Graph API and gets the user's id back
-
-                if (fb_id === id) {
-
-                    /api/mobile/relogin returns a 200 response (OK) with {authenticated: true}
-
-                    LoadingModel sets uuid and token on GlobalModel
-
-                    LoadingModel navigates (via replace) to GameListView
-
-                        --->
-
-                } else {
-
-                    /api/mobile/relogin returns a 200 response (OK) with {authenticated: false}
-
-                    LoadingModel navigates (via replace) to LoginChoicesView
-
-                        ---> flow/ios/sign-in/choices.txt
-
+                    /api/mobile/relogin passes the fb_token to the Facebook Graph API and gets the user's id back
+                    
+                    if (fb_id === id) {
+                    
+                        /api/mobile/relogin returns a 200 response (OK) with {authenticated: true, fbUser: true}
+    
+                        LoadingModel sets fbUser on GlobalModel
+    
+                        LoadingModel navigates (via replace) to GameListView
+    
+                            --->
+    
+                    } else {
+    
+                        /api/mobile/relogin returns a 200 response (OK) with {authenticated: false}
+    
+                        LoadingModel navigates (via replace) to LoginChoicesView
+    
+                            ---> flow/ios/sign-in/choices.txt
+    
+                    }
+                
                 }
 
             } else if (token === email_token && current server time < email_token_exp) {
