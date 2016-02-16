@@ -1,9 +1,10 @@
 'use strict';
 
-import React      from 'react-native';
-import FBSDKLogin from 'react-native-fbsdklogin';
-import FBSDKCore  from 'react-native-fbsdkcore';
-import Env        from '../util/Env';
+import React       from 'react-native';
+import FBSDKLogin  from 'react-native-fbsdklogin';
+import FBSDKCore   from 'react-native-fbsdkcore';
+import Env         from '../util/Env';
+import GlobalModel from './GlobalModel';
 
 let {
     AsyncStorage
@@ -79,8 +80,10 @@ class LoginChoicesModel {
                                         } else {
                                             AsyncStorage.setItem('uuid', response.uuid);
                                             AsyncStorage.setItem('token', token.tokenString);
-                                            // TODO and WYLO .... Create the GlobalModel class and set stuff on it...
-                                            console.log('TODO: Save', response.uuid, 'to local storage and navigate to GameListView...');
+                                            GlobalModel.uuid = response.uuid;
+                                            GlobalModel.fbUser = true;
+                                            // TODO and WYLO .... 
+                                            console.log('Navigate to GameListView...');
                                         }
                                     }).catch((error) => {
                                         console.log(error);

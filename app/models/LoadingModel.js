@@ -1,7 +1,8 @@
 'use strict';
 
-import React from 'react-native';
-import Env   from '../util/Env';
+import React       from 'react-native';
+import Env         from '../util/Env';
+import GlobalModel from './GlobalModel';
 
 let {
     AsyncStorage
@@ -45,9 +46,10 @@ export default class LoadingModel {
                         console.log('not authenticated...');
                         this.navigator.push({component: this.loginChoicesView});
                     } else {
-                        // TODO and WYLO .... Create the GlobalModel class and set stuff on it...
-                        console.log('authenticated...setting uuid to', uuid, 'and fbUser to', response.fbUser, 'on GlobalModel');
-                        console.log('TODO: Navigate to GameListView...');
+                        GlobalModel.uuid = uuid;
+                        GlobalModel.fbUser = response.fbUser;
+                        // TODO and WYLO ....
+                        console.log('Navigate to GameListView...');
                     }
                 }).catch((error) => {
                     console.log(error);

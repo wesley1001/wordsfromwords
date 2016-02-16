@@ -1,7 +1,8 @@
 'use strict';
 
-import React from 'react-native';
-import Env   from '../util/Env';
+import React       from 'react-native';
+import Env         from '../util/Env';
+import GlobalModel from './GlobalModel';
 
 let {AsyncStorage} = React;
 
@@ -178,9 +179,12 @@ class EmailLoginModel {
                 reason[response.error] = true; // Could be 'code' or 'expired'.
                 callback(reason);
             } else {
+                AsyncStorage.setItem('uuid', this._uuid);
                 AsyncStorage.setItem('token', response.token);
-                // TODO and WYLO .... Create the GlobalModel class and set stuff on it...
-                console.log('TODO: Navigate to GameListView...');
+                GlobalModel.uuid = this._uuid;
+                GlobalModel.fbUser = false;
+                // TODO and WYLO .... 
+                console.log('Navigate to GameListView...');
             }
         }).catch((error) => {
             console.log(error);
