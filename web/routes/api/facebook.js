@@ -36,8 +36,8 @@ router.post('/validate', function(req, res) {
                 });
             } else {
                 userUuid = result.uuid;
-                // TODO .... UPDATE fbToken WHERE uuid = userUuid
-                return res.send({uuid: userUuid}); // TODO .... <= This should actually go inside the dbService callback.
+                // TODO .... The user has logged in via Facebook again (not their first time), so UPDATE fbToken WHERE uuid = userUuid
+                return res.send({uuid: userUuid});
             }
         });
     });

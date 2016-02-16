@@ -179,6 +179,7 @@ class EmailLoginModel {
                 callback(reason);
             } else {
                 AsyncStorage.setItem('token', response.token);
+                // TODO and WYLO .... Create the GlobalModel class and set stuff on it...
                 console.log('TODO: Navigate to GameListView...');
             }
         }).catch((error) => {

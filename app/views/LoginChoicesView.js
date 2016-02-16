@@ -1,9 +1,10 @@
 'use strict';
 
-import React             from 'react-native';
-import Device            from '../util/Device';
-import model             from '../models/LoginChoicesModel';
-import InitialLogoView   from './InitialLogoView';
+import React            from 'react-native';
+import Device           from '../util/Device';
+import model            from '../models/LoginChoicesModel';
+import InitialLogoView  from './InitialLogoView';
+import EmailAddressView from '../views/EmailAddressView';
 
 let {
     Image,
@@ -16,6 +17,7 @@ let {
 export default class LoginChoicesView extends React.Component {
 
     componentDidMount() {
+        model.setEmailAddressView(EmailAddressView);
         model.initialize(this.props.navigator);
     }
     

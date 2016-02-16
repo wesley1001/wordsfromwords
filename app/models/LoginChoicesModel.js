@@ -1,11 +1,18 @@
 'use strict';
 
-import FBSDKLogin       from 'react-native-fbsdklogin';
-import FBSDKCore        from 'react-native-fbsdkcore';
-import EmailAddressView from '../views/EmailAddressView';
-import Env              from '../util/Env';
+import React      from 'react-native';
+import FBSDKLogin from 'react-native-fbsdklogin';
+import FBSDKCore  from 'react-native-fbsdkcore';
+import Env        from '../util/Env';
 
-let {FBSDKLoginManager} = FBSDKLogin;
+let {
+    AsyncStorage
+} = React;
+
+let {
+    FBSDKLoginManager
+} = FBSDKLogin;
+
 let {
     FBSDKAccessToken,
     FBSDKGraphRequest
@@ -13,12 +20,16 @@ let {
 
 class LoginChoicesModel {
     
+    setEmailAddressView(emailAddressView) {
+        this.emailAddressView = emailAddressView;
+    }
+    
     initialize(navigator) {
         this.navigator = navigator;
     }
     
     tryEmailLogin() {
-        this.navigator.push({component: EmailAddressView});
+        this.navigator.push({component: this.emailAddressView});
     }
     
     tryFacebookLogin() {
@@ -31,7 +42,6 @@ class LoginChoicesModel {
                 if (result.isCancelled) {
                     console.log('Login cancelled...');
                 } else {
-                    console.log('Logged in! Result:', result);
                     
                     /*
                         This is what the result looks like:
@@ -46,15 +56,10 @@ class LoginChoicesModel {
                     
                     FBSDKAccessToken.getCurrentAccessToken((token) => {
                         if (token && token.tokenString) {
-                            console.log('Got a token...');
-                            console.log(token.tokenString);
                             var graphRequest = new FBSDKGraphRequest((graphError, result) => {
                                 if (graphError) {
-                                    alert('Error making graph request:', graphError);
+                                    console.log('Error making graph request:', graphError);
                                 } else {
-                                    // Data from request is in result
-                                    console.log('Result of graph request:', result);
-                                    
                                     fetch(Env.getApiHost() + '/api/facebook/validate', {
                                         method: 'POST',
                                         headers: {
@@ -69,29 +74,22 @@ class LoginChoicesModel {
                                     }).then((rawResponse) => {
                                         return rawResponse.json();
                                     }).then((response) => {
-                                        //this._fetching = false;
                                         if (!response || !response.uuid || response.error) {
                                             console.log('Error:', response.error);
-                                            //callback();
                                         } else {
-                                            
-                                            // TODO and WYLO .... Now that you have email/fb account creation working, get /api/mobile/relogin working.
-                                            
+                                            AsyncStorage.setItem('uuid', response.uuid);
+                                            AsyncStorage.setItem('token', token.tokenString);
+                                            // TODO and WYLO .... Create the GlobalModel class and set stuff on it...
                                             console.log('TODO: Save', response.uuid, 'to local storage and navigate to GameListView...');
-                                            //this._uuid = response.uuid;
-                                            //this.navigator.push({component: this.emailSetPasswordView});
                                         }
                                     }).catch((error) => {
                                         console.log(error);
-                                        //this._fetching = false;
-                                        //callback();
                                     });
                                     
                                 }
                             }, '/me?fields=id,name');
                             graphRequest.start();
                         } else {
-                            console.log('Logging out...');
                             FBSDKLoginManager.logOut();
                         }
                     });

@@ -1,8 +1,9 @@
 'use strict';
 
-import React           from 'react-native';
-import InitialLogoView from './InitialLogoView'
-import LoadingModel    from '../models/LoadingModel';
+import React            from 'react-native';
+import InitialLogoView  from './InitialLogoView'
+import LoginChoicesView from '../views/LoginChoicesView';
+import LoadingModel     from '../models/LoadingModel';
 
 let {
     Image,
@@ -15,6 +16,7 @@ let model = new LoadingModel();
 export default class LoadingView extends React.Component {
     
     componentDidMount() {
+        model.setLoginChoicesView(LoginChoicesView);
         model.initialize(this.props.navigator);
     }
     

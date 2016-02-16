@@ -51,7 +51,7 @@ When the app is launched:
 
             } else if (token === email_token && current server time < email_token_exp) {
 
-                /api/mobile/relogin returns a 200 response (OK) with {authenticated: true}
+                /api/mobile/relogin returns a 200 response (OK) with {authenticated: true, fbUser: false}
 
                 LoadingModel sets uuid and token on GlobalModel
 
