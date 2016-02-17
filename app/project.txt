@@ -46,7 +46,7 @@
 
 	9. Round 2 begins. The players continue as described above, alternating who plays first each round.
 
-	10. The first player to score 500 or more points is the winner.
+	10. The first player to score 500 (?) or more points is the winner.
 
 		Scoring methods:
 
