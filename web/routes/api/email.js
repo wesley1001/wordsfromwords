@@ -3,6 +3,7 @@ var express      = require('express'),
     dbService    = null,
     uuid         = require('node-uuid'),
     emailService = require('../../services/email-service'),
+    redisService = require('../../services/redis-service.js'),
     nodemailer = require('nodemailer'),
     smtpTransport = require('nodemailer-smtp-transport'),
     transport = null;
@@ -79,6 +80,7 @@ router.post('/passwords', function(req, res) {
                 if (setPasswordErr) {
                     return res.send({error: setPasswordErr});
                 }
+                redisService.setUser(clientUuid, emailToken, false);
                 return res.send({uuid: clientUuid, token: emailToken});
             });
         } else {

@@ -5,8 +5,6 @@ When the user taps the 'Sign in with Facebook' button on the LoginChoicesView:
 
     LoginChoicesModel invokes the React Native FBSDK, which prompts the user to login via Facebook
     
-TODO and WYLO ....
-    
     After successful login, LoginChoicesModel POSTs the user's fb_id and fb_token to /api/facebook/validate
 
     /api/facebook/validate passes the fb_token to the Facebook Graph API and gets the user_id back...

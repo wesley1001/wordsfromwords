@@ -1,6 +1,7 @@
 var express   = require('express'),
     router    = express.Router(),
     fbService = require('../../services/facebook-service'),
+    redisService = require('../../services/redis-service.js'),
     uuid      = require('node-uuid'),
     dbService = null,
     appConfig = null;
@@ -32,11 +33,13 @@ router.post('/validate', function(req, res) {
                     if (createErr) {
                         return res.send({error: createErr});
                     }
+                    redisService.setUser(userUuid, fbToken, true);
                     return res.send({uuid: userUuid});
                 });
             } else {
                 userUuid = result.uuid;
                 // TODO .... The user has logged in via Facebook again (not their first time), so UPDATE fbToken WHERE uuid = userUuid
+                redisService.setUser(userUuid, fbToken, true);
                 return res.send({uuid: userUuid});
             }
         });

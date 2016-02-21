@@ -1,0 +1,25 @@
+When the app is first released and usage is low, the node, redis, and postgres servers will all run on the same box:
+
+
+Internet
+   ||
+   ||
+   \/
+  node
+   ||
+   ||
+   \/
+ redis
+   ||
+   ||
+   \/
+postgres
+
+
+If usage increases (fingers crossed), then each service in the chain can moved to its own instance.
+
+Things to think about with redis and login requests:
+
+    - How long should the uuid/token live in the cache?
+    
+    - 

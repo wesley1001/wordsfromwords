@@ -20,7 +20,7 @@ export default class LoadingModel {
         /*
         AsyncStorage.removeItem('uuid');
         AsyncStorage.removeItem('token');
-        */
+         */
         
         /**/
         AsyncStorage.getItem('uuid').then((value) => {
@@ -44,7 +44,7 @@ export default class LoadingModel {
                 }).then((response) => {
                     if (!response || !response.authenticated) {
                         console.log('not authenticated...');
-                        this.navigator.push({component: this.loginChoicesView});
+                        navigator.push({component: this.loginChoicesView});
                     } else {
                         GlobalModel.uuid = uuid;
                         GlobalModel.fbUser = response.fbUser;
@@ -62,7 +62,7 @@ export default class LoadingModel {
         }).catch((error) => {
             console.log("Failed to get uuid and/or token", error);
         });
-        
+         
     }
     
 }

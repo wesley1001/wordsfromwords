@@ -13,6 +13,9 @@
         "user": "WFW_NO_REPLY_USER",
         "password": "WFW_NO_REPLY_PASSWORD"
       }
+    },
+    "redis": {
+      "host": "REDIS_HOST"
     }
   }
 }

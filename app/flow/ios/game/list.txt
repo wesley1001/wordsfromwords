@@ -1,0 +1,6 @@
+
+When navigation to GameListView occurs:
+
+    GameListView tells GameListModel to get the player's list of games:
+    
+        LoadingModel POSTs uuid and token to /api/mobile/games/list
