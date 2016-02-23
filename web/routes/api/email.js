@@ -2,6 +2,7 @@ var express      = require('express'),
     router       = express.Router(),
     dbService    = null,
     uuid         = require('node-uuid'),
+    bcrypt       = require('bcrypt'),
     emailService = require('../../services/email-service'),
     redisService = require('../../services/redis-service.js'),
     nodemailer = require('nodemailer'),
@@ -65,7 +66,7 @@ router.post('/passwords', function(req, res) {
     var password2 = req.body.password2;
     var email = req.body.email;
     if (!clientUuid || !code || !password1 || !password2 || !email || (password1 !== password2) || password1.length > 512) {
-        return res.send({error: 'Invalid data'});
+        return res.send({error: 'invalid data'});
     }
     dbService.getCodeAndExp(clientUuid, function(err, result) {
         if (err) {
@@ -96,11 +97,37 @@ router.post('/passwords', function(req, res) {
     });
 });
 
+router.post('/validate', function(req, res) {
+    var email = req.body.email;
+    var password = req.body.password;
+    if (!email || !password || password.length < 8) {
+        return res.send({error: 'invalid data'});
+    }
+    dbService.getUuidAndPassword(email, function(err, result) {
+        if (err) {
+            return res.send({error: err});
+        }
+        if (!result.uuid || !result.password) {
+            return res.send({error: 'unknown error'});
+        }
+        bcrypt.compare(password, result.password, function(passwordErr, match) {
+            if (passwordErr) {
+                return res.send({error: passwordErr});
+            }
+            if (match) {
+                // TODO and WYLO .... Generate a new email_token and email_token_exp and UPDATE this user.
+            } else {
+                return res.send({authenticated: false});
+            }
+        });
+    });
+});
+
 router.post('/forgot', function(req, res) {
     var clientUuid = req.body.uuid;
     var email = req.body.email;
     if (!clientUuid) {
-        return res.send({error: 'Invalid data.'});
+        return res.send({error: 'invalid data'});
     }
     if (!email) {
         return res.send({error: 'Please provide your email address.'});

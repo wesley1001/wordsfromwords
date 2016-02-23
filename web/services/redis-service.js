@@ -7,7 +7,7 @@ RedisService.prototype = {
     
     setUser: function(uuid, token, fbUser) {
         redis.hmset(uuid, 'token', token, 'fbUser', fbUser);
-        // TODO and WYLO .... Set EXPIRES to some new value (you'll have to pass it in from email.js and facebook.js).
+        redis.expire(uuid, 60 * 60 * 24 * 60); // 60 days (60s * 60m * 24h * 60d) 
     },
     
     getUser: function(uuid, callback) {

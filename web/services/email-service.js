@@ -37,7 +37,7 @@ EmailService.prototype = {
     },
     
     sendPasswordReset: function() {
-        
+        // TODO and WYLO .... Shoot off this email.
     }
     
 };

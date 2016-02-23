@@ -73,8 +73,8 @@ export default class EmailPasswordView extends React.Component {
                 // TODO and WYLO .... Send the password somewhere for verification.
             } else {
                 Alert.alert(
-                    'Uh, yeah...',
-                    "We're gonna need you to go ahead and enter a valid password. Mmmkay?",
+                    'Too short...',
+                    'I find your lack of security disturbing (your password is at least 8 characters).',
                     [{text: 'OK', onPress: () => this.refs.password.focus()}]
                 );
             }
